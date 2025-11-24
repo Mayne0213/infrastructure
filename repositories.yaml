@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: repo-jovies
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  type: git
+  url: https://github.com/Mayne0213/jovies.git
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: repo-portfolio
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  type: git
+  url: https://github.com/Mayne0213/portfolio.git
