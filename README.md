@@ -34,10 +34,11 @@ sudo bash setup-new-server.sh
 이 스크립트는 다음을 자동으로 설치합니다:
 - ✅ K3s (Kubernetes)
 - ✅ ArgoCD
-- ✅ ArgoCD Image Updater
 - ✅ Ingress Nginx Controller
 - ✅ Nginx 리버스 프록시
 - ✅ Infrastructure App of Apps
+
+**참고:** GitHub Actions가 이미지 태그를 자동으로 업데이트하므로 ArgoCD Image Updater는 설치하지 않습니다.
 
 스크립트 실행 후 DNS를 새 서버 IP로 변경하면 모든 애플리케이션이 자동으로 배포됩니다.
 

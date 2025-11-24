@@ -97,20 +97,9 @@ else
 fi
 
 ###############################################################################
-# 4. ArgoCD Image Updater 설치
+# 4. Ingress Nginx Controller 설치
 ###############################################################################
-log_info "4/8 ArgoCD Image Updater 설치 중..."
-if kubectl get deployment argocd-image-updater -n argocd &> /dev/null; then
-    log_warn "ArgoCD Image Updater가 이미 설치되어 있습니다. 건너뜁니다."
-else
-    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
-    log_info "ArgoCD Image Updater 설치 완료!"
-fi
-
-###############################################################################
-# 5. Ingress Nginx Controller 설치
-###############################################################################
-log_info "5/8 Ingress Nginx Controller 설치 중..."
+log_info "4/7 Ingress Nginx Controller 설치 중..."
 if kubectl get namespace ingress-nginx &> /dev/null; then
     log_warn "Ingress Nginx가 이미 설치되어 있습니다. 건너뜁니다."
 else
@@ -129,9 +118,9 @@ HTTP_NODEPORT=$(kubectl get svc ingress-nginx-controller -n ingress-nginx -o jso
 log_info "HTTP NodePort: $HTTP_NODEPORT"
 
 ###############################################################################
-# 6. Nginx 설치 및 설정
+# 5. Nginx 설치 및 설정
 ###############################################################################
-log_info "6/8 Nginx 설치 중..."
+log_info "5/7 Nginx 설치 중..."
 if command -v nginx &> /dev/null; then
     log_warn "Nginx가 이미 설치되어 있습니다."
 else
@@ -188,9 +177,9 @@ systemctl enable nginx
 log_info "Nginx 설치 및 설정 완료!"
 
 ###############################################################################
-# 7. Infrastructure App of Apps 배포
+# 6. Infrastructure App of Apps 배포
 ###############################################################################
-log_info "7/8 Infrastructure App of Apps 배포 중..."
+log_info "6/7 Infrastructure App of Apps 배포 중..."
 
 # application.yaml 다운로드 및 적용
 log_info "infrastructure repository에서 application.yaml 다운로드 중..."
@@ -206,9 +195,9 @@ else
 fi
 
 ###############################################################################
-# 8. 상태 확인
+# 7. 상태 확인
 ###############################################################################
-log_info "8/8 최종 상태 확인 중..."
+log_info "7/7 최종 상태 확인 중..."
 
 echo ""
 echo "========================================"
@@ -233,7 +222,6 @@ echo ""
 log_info "설치된 구성 요소:"
 echo "  ✅ K3s (Kubernetes)"
 echo "  ✅ ArgoCD"
-echo "  ✅ ArgoCD Image Updater"
 echo "  ✅ Ingress Nginx Controller (NodePort: $HTTP_NODEPORT)"
 echo "  ✅ Nginx 리버스 프록시 (Port 80 → $HTTP_NODEPORT)"
 echo "  ✅ Infrastructure App of Apps"
