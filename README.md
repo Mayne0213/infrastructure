@@ -40,7 +40,7 @@ sudo bash setup-new-server.sh
 
 **참고:** GitHub Actions가 이미지 태그를 자동으로 업데이트하므로 ArgoCD Image Updater는 설치하지 않습니다.
 
-스크립트 실행 후 DNS를 새 서버 IP로 변경하면 모든 애플리케이션이 자동으로 배포됩니다.
+**중요:** `setup-new-server.sh` 실행 후에는 반드시 `setup-secrets.sh`를 실행하여 필요한 시크릿을 생성해야 합니다. 그 후 DNS를 새 서버 IP로 변경하면 모든 애플리케이션이 자동으로 배포됩니다.
 
 ### 수동 초기 설정
 
@@ -77,11 +77,29 @@ kubectl apply -f application.yaml
 - [ ] ArgoCD admin 비밀번호 저장
 - [ ] 모든 구성 요소 설치 확인
 
+### 시크릿 설정 (필수)
+- [ ] `bash setup-secrets.sh` 실행하여 필요한 시크릿 생성
+  - Portfolio: ArgoCD 토큰 필요
+  - Todo: 데이터베이스 URL 필요
+- [ ] 또는 수동으로 시크릿 생성:
+  ```bash
+  # Portfolio ArgoCD 토큰
+  kubectl create secret generic argocd-token \
+    --from-literal=token='YOUR_TOKEN' \
+    -n portfolio
+  
+  # Todo 데이터베이스 URL
+  kubectl create secret generic todo-secrets \
+    --from-literal=database-url='YOUR_DB_URL' \
+    -n todo
+  ```
+
 ### 설치 후
 - [ ] DNS 레코드를 새 서버 IP로 변경
   - mayne.kro.kr
   - jovies.kro.kr
   - argocd.kro.kr
+  - todo0213.kro.kr
 - [ ] ArgoCD UI 접속 확인 (http://argocd.kro.kr)
 - [ ] 모든 애플리케이션 배포 상태 확인
   ```bash
@@ -91,6 +109,7 @@ kubectl apply -f application.yaml
 - [ ] 웹사이트 접근 테스트
   - http://mayne.kro.kr
   - http://jovies.kro.kr
+  - http://todo0213.kro.kr
 
 ### 추가 설정 (선택)
 - [ ] SSL/TLS 인증서 설정 (Let's Encrypt)

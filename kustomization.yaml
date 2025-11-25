@@ -7,5 +7,6 @@ resources:
   - argocd/applications/jovies.yaml
   - argocd/applications/portfolio.yaml
   - argocd/applications/todo.yaml
+  - argocd/applications/monitoring.yaml
   - ingress/ingress.yaml
 
