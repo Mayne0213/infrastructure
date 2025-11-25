@@ -93,7 +93,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: grafana.kro.kr
+    - host: grafana0213.kro.kr
       http:
         paths:
           - path: /

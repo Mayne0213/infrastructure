@@ -61,7 +61,7 @@ spec:
         - name: GF_INSTALL_PLUGINS
           value: ""
         - name: GF_SERVER_ROOT_URL
-          value: "http://grafana.kro.kr"
+          value: "http://grafana0213.kro.kr"
         - name: GF_AUTH_ANONYMOUS_ENABLED
           value: "false"
         resources:
