@@ -60,6 +60,7 @@ spec:
   tls:
   - hosts:
     - mayne.kro.kr
+    - www.mayne.kro.kr
     secretName: portfolio-tls
   rules:
     - host: mayne.kro.kr
@@ -72,7 +73,16 @@ spec:
                 name: portfolio-service
                 port:
                   number: 80
-
+    - host: www.mayne.kro.kr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: portfolio-service
+                port:
+                  number: 80
 ---
 # Todo 네임스페이스의 Ingress
 apiVersion: networking.k8s.io/v1
@@ -92,6 +102,7 @@ spec:
   tls:
   - hosts:
     - todo0213.kro.kr
+    - www.todo0213.kro.kr
     secretName: todo-tls
   rules:
     - host: todo0213.kro.kr
@@ -104,7 +115,16 @@ spec:
                 name: todo-service
                 port:
                   number: 80
-
+    - host: www.todo0213.kro.kr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: todo-service
+                port:
+                  number: 80
 ---
 # Jaejadle 네임스페이스의 Ingress
 apiVersion: networking.k8s.io/v1
@@ -124,6 +144,7 @@ spec:
   tls:
   - hosts:
     - jaejadle.kro.kr
+    - www.jaejadle.kro.kr
     secretName: jaejadle-tls
   rules:
     - host: jaejadle.kro.kr
@@ -136,7 +157,16 @@ spec:
                 name: jaejadle-service
                 port:
                   number: 80
-
+    - host: www.jaejadle.kro.kr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jaejadle-service
+                port:
+                  number: 80
 ---
 # Grafana 네임스페이스의 Ingress
 apiVersion: networking.k8s.io/v1
@@ -156,9 +186,20 @@ spec:
   tls:
   - hosts:
     - grafana0213.kro.kr
+    - www.grafana0213.kro.kr
     secretName: grafana-tls
   rules:
     - host: grafana0213.kro.kr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 80
+    - host: www.grafana0213.kro.kr
       http:
         paths:
           - path: /
