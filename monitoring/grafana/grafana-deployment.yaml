@@ -72,10 +72,10 @@ spec:
           value: "false"
         resources:
           requests:
-            cpu: 100m
+            cpu: 200m
             memory: 128Mi
           limits:
-            cpu: 300m
+            cpu: 600m
             memory: 256Mi
         volumeMounts:
         - name: storage
