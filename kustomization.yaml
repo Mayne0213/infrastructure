@@ -8,6 +8,7 @@ resources:
   - argocd/applications/portfolio.yaml
   - argocd/applications/todo.yaml
   - argocd/applications/jaejadle.yaml
+  - argocd/applications/joossam.yaml
   - argocd/applications/monitoring.yaml
   - cert-manager  # cert-manager ClusterIssuer 설정
   - ingress/ingress.yaml
