@@ -288,3 +288,118 @@ spec:
                 name: jovies-service
                 port:
                   number: 80
+
+---
+# Todo Dev 네임스페이스의 Ingress (Development)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: todo-dev-ingress
+  namespace: todo-dev
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - dev.todo.kro.kr
+    secretName: todo-dev-tls
+  rules:
+    - host: dev.todo.kro.kr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: todo-service
+                port:
+                  number: 80
+
+---
+# Jaejadle Dev 네임스페이스의 Ingress (Development)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jaejadle-dev-ingress
+  namespace: jaejadle-dev
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - dev.jaejadle.kro.kr
+    secretName: jaejadle-dev-tls
+  rules:
+    - host: dev.jaejadle.kro.kr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jaejadle-service
+                port:
+                  number: 80
+
+---
+# Portfolio Dev 네임스페이스의 Ingress (Development)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portfolio-dev-ingress
+  namespace: portfolio-dev
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - dev.mayne.kro.kr
+    secretName: portfolio-dev-tls
+  rules:
+    - host: dev.mayne.kro.kr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: portfolio-service
+                port:
+                  number: 80
+
+---
+# Joossam Dev 네임스페이스의 Ingress (Development)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: joossam-dev-ingress
+  namespace: joossam-dev
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - dev.joossam.kro.kr
+    secretName: joossam-dev-tls
+  rules:
+    - host: dev.joossam.kro.kr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: joossam-service
+                port:
+                  number: 80
