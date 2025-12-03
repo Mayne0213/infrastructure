@@ -67,9 +67,13 @@ spec:
         - name: GF_SECURITY_ALLOW_EMBEDDING
           value: "true"
         - name: GF_AUTH_ANONYMOUS_ORG_ROLE
-          value: "Viewer"
+          value: "Admin"
         - name: GF_AUTH_DISABLE_LOGIN_FORM
           value: "false"
+        - name: GF_AUTH_BASIC_ENABLED
+          value: "false"
+        - name: GF_AUTH_DISABLE_SIGNOUT_MENU
+          value: "true"
         resources:
           requests:
             cpu: 200m
