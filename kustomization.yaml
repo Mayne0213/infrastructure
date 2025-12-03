@@ -5,6 +5,7 @@ resources:
   - application.yaml
   - argocd/repositories.yaml
   - argocd/applications/jovies.yaml
+  - argocd/applications/jovies-dev.yaml
   - argocd/applications/portfolio.yaml
   - argocd/applications/todo.yaml
   - argocd/applications/jaejadle.yaml
