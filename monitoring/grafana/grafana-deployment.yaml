@@ -19,7 +19,7 @@ metadata:
 type: Opaque
 stringData:
   admin-user: admin
-  admin-password: admin123!
+  admin-password: Admin12345
 ---
 apiVersion: apps/v1
 kind: Deployment
