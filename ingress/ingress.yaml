@@ -390,10 +390,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - dev.joossam.kro.kr
+    - dev.joossameng.kro.kr
     secretName: joossam-dev-tls
   rules:
-    - host: dev.joossam.kro.kr
+    - host: dev.joossameng.kro.kr
       http:
         paths:
           - path: /

@@ -46,6 +46,8 @@ spec:
               key: rootPassword
         - name: MINIO_API_CORS_ALLOW_ORIGIN
           value: "*"
+        - name: MINIO_BROWSER_REDIRECT_URL
+          value: "https://minio.minio0213.kro.kr"
         ports:
         - containerPort: 9000
           name: minio-api
