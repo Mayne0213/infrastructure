@@ -164,3 +164,8 @@ data:
             action: keep
             regex: metrics
 
+      # Cert-Manager Metrics
+      - job_name: 'cert-manager'
+        static_configs:
+          - targets: ['cert-manager.cert-manager.svc.cluster.local:9402']
+
