@@ -44,6 +44,8 @@ spec:
             secretKeyRef:
               name: minio-credentials
               key: rootPassword
+        - name: MINIO_API_CORS_ALLOW_ORIGIN
+          value: "*"
         ports:
         - containerPort: 9000
           name: minio-api
