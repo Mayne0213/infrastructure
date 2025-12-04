@@ -8,4 +8,3 @@ resources:
   - secret.yaml
   - service.yaml
   - statefulset.yaml
-  - ingress.yaml
