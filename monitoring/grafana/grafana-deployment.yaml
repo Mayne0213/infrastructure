@@ -74,6 +74,8 @@ spec:
           value: "false"
         - name: GF_AUTH_DISABLE_SIGNOUT_MENU
           value: "true"
+        - name: GF_NEWS_NEWS_FEED_ENABLED
+          value: "false"
         resources:
           requests:
             cpu: 200m
