@@ -14,6 +14,10 @@ spec:
     metadata:
       labels:
         app: minio
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9000"
+        prometheus.io/path: "/minio/v2/metrics/cluster"
     spec:
       affinity:
         podAntiAffinity:
@@ -48,6 +52,8 @@ spec:
           value: "*"
         - name: MINIO_BROWSER_REDIRECT_URL
           value: "https://minio.minio0213.kro.kr"
+        - name: MINIO_PROMETHEUS_AUTH_TYPE
+          value: "public"
         ports:
         - containerPort: 9000
           name: minio-api
