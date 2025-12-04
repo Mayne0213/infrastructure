@@ -307,7 +307,7 @@ spec:
     - dev.todo0213.kro.kr
     secretName: todo-dev-tls
   rules:
-    - host: dev.todo.kro.kr
+    - host: dev.todo0213.kro.kr
       http:
         paths:
           - path: /
