@@ -76,6 +76,14 @@ data:
         max_connections=200
         default_schema="information_schema"
         active=1
+      },
+      {
+        username="app"
+        password="changeme-app-password"
+        default_hostgroup=0
+        max_connections=200
+        default_schema="information_schema"
+        active=1
       }
     )
 
