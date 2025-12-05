@@ -15,6 +15,7 @@ resources:
   - argocd/applications/joossam.yaml
   - argocd/applications/joossam-dev.yaml
   - argocd/applications/monitoring.yaml
+  - argocd/applications/mysql.yaml
   - cert-manager  # cert-manager ClusterIssuer 설정
   - ingress/ingress.yaml
 
