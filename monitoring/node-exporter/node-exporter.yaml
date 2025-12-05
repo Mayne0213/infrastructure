@@ -29,7 +29,7 @@ spec:
           name: metrics
         resources:
           requests:
-            cpu: 100m
+            cpu: 25m
             memory: 50Mi
           limits:
             cpu: 500m
