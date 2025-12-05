@@ -79,11 +79,9 @@ spec:
           readinessProbe:
             exec:
               command:
-                - mysql
-                - -h
-                - localhost
-                - -e
-                - "SELECT 1"
+                - bash
+                - -c
+                - mysql -u root -p${MYSQL_ROOT_PASSWORD} -h localhost -e "SELECT 1"
             initialDelaySeconds: 10
             periodSeconds: 5
             timeoutSeconds: 2
