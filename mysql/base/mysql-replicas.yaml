@@ -63,7 +63,8 @@ spec:
             - name: data
               mountPath: /var/lib/mysql
             - name: config
-              mountPath: /etc/mysql/conf.d
+              mountPath: /etc/mysql/conf.d/replica.cnf
+              subPath: replica.cnf
           resources:
             requests:
               memory: "128Mi"
@@ -164,7 +165,8 @@ spec:
             - name: data
               mountPath: /var/lib/mysql
             - name: config
-              mountPath: /etc/mysql/conf.d
+              mountPath: /etc/mysql/conf.d/replica.cnf
+              subPath: replica.cnf
           resources:
             requests:
               memory: "128Mi"
