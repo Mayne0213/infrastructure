@@ -169,3 +169,8 @@ data:
         static_configs:
           - targets: ['cert-manager.cert-manager.svc.cluster.local:9402']
 
+      # MySQL Exporter
+      - job_name: 'mysql-exporter'
+        static_configs:
+          - targets: ['mysql-exporter.monitoring.svc.cluster.local:9104']
+

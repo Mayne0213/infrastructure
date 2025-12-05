@@ -10,4 +10,5 @@ resources:
   - grafana
   - node-exporter
   - kube-state-metrics
+  - mysql-exporter
 
