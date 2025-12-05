@@ -1,0 +1,200 @@
+---
+# Replica 1 Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-replica1
+  namespace: mysql
+  labels:
+    app: mysql
+    role: replica
+spec:
+  ports:
+    - port: 3306
+      name: mysql
+  clusterIP: None
+  selector:
+    app: mysql
+    role: replica
+    instance: replica1
+---
+# Replica 1 StatefulSet
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-replica1
+  namespace: mysql
+spec:
+  serviceName: mysql-replica1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+      role: replica
+      instance: replica1
+  template:
+    metadata:
+      labels:
+        app: mysql
+        role: replica
+        instance: replica1
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: oracle-worker1
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          ports:
+            - containerPort: 3306
+              name: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: root-password
+            - name: SERVER_ID
+              value: "2"
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/mysql
+            - name: config
+              mountPath: /etc/mysql/conf.d
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "400m"
+          livenessProbe:
+            exec:
+              command:
+                - mysqladmin
+                - ping
+                - -h
+                - localhost
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                - mysql
+                - -h
+                - localhost
+                - -e
+                - "SELECT 1"
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 2
+      volumes:
+        - name: config
+          configMap:
+            name: mysql-config
+            items:
+              - key: replica.cnf
+                path: replica.cnf
+        - name: data
+          persistentVolumeClaim:
+            claimName: mysql-prod-replica1-pvc
+---
+# Replica 2 Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-replica2
+  namespace: mysql
+  labels:
+    app: mysql
+    role: replica
+spec:
+  ports:
+    - port: 3306
+      name: mysql
+  clusterIP: None
+  selector:
+    app: mysql
+    role: replica
+    instance: replica2
+---
+# Replica 2 StatefulSet
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-replica2
+  namespace: mysql
+spec:
+  serviceName: mysql-replica2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+      role: replica
+      instance: replica2
+  template:
+    metadata:
+      labels:
+        app: mysql
+        role: replica
+        instance: replica2
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: oracle-worker2
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          ports:
+            - containerPort: 3306
+              name: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: root-password
+            - name: SERVER_ID
+              value: "3"
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/mysql
+            - name: config
+              mountPath: /etc/mysql/conf.d
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "200m"
+            limits:
+              memory: "512Mi"
+              cpu: "400m"
+          livenessProbe:
+            exec:
+              command:
+                - mysqladmin
+                - ping
+                - -h
+                - localhost
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                - mysql
+                - -h
+                - localhost
+                - -e
+                - "SELECT 1"
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 2
+      volumes:
+        - name: config
+          configMap:
+            name: mysql-config
+            items:
+              - key: replica.cnf
+                path: replica.cnf
+        - name: data
+          persistentVolumeClaim:
+            claimName: mysql-prod-replica2-pvc

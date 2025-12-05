@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+  namespace: mysql
+data:
+  primary.cnf: |
+    [mysqld]
+    server-id=1
+    log-bin=mysql-bin
+    binlog-format=ROW
+    max_connections=200
+    innodb_buffer_pool_size=512M
+    innodb_log_file_size=256M
+    character-set-server=utf8mb4
+    collation-server=utf8mb4_unicode_ci
+
+  replica.cnf: |
+    [mysqld]
+    server-id={{ SERVER_ID }}
+    relay-log=mysql-relay-bin
+    log-bin=mysql-bin
+    binlog-format=ROW
+    read_only=1
+    max_connections=200
+    innodb_buffer_pool_size=256M
+    character-set-server=utf8mb4
+    collation-server=utf8mb4_unicode_ci
