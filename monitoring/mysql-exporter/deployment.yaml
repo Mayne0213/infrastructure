@@ -33,14 +33,15 @@ spec:
           ports:
             - containerPort: 9104
               name: metrics
+          args:
+            - --no-collect.info_schema.innodb_tablespaces
+            - --no-collect.info_schema.innodb_metrics
           env:
             - name: DATA_SOURCE_NAME
               valueFrom:
                 secretKeyRef:
                   name: mysql-exporter-secret
                   key: data-source-name
-            - name: MYSQLD_EXPORTER_PASSWORD
-              value: ""
           resources:
             requests:
               memory: "64Mi"
