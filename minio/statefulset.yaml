@@ -34,7 +34,7 @@ spec:
         image: minio/minio:RELEASE.2024-11-07T00-52-20Z
         args:
         - server
-        - http://minio-{0...2}.minio.minio.svc.cluster.local/data
+        - http://minio-{0...2}.minio.minio.svc.cluster.local/data{1...2}
         - --console-address
         - ":9001"
         env:
@@ -60,8 +60,10 @@ spec:
         - containerPort: 9001
           name: console
         volumeMounts:
-        - name: data
-          mountPath: /data
+        - name: data1
+          mountPath: /data1
+        - name: data2
+          mountPath: /data2
         livenessProbe:
           httpGet:
             path: /minio/health/live
@@ -77,12 +79,16 @@ spec:
         resources:
           requests:
             memory: "512Mi"
-            cpu: "250m"
+            cpu: "100m"
           limits:
             memory: "2Gi"
             cpu: "1000m"
       volumes:
-      - name: data
+      - name: data1
         hostPath:
-          path: /mnt/minio-data
+          path: /mnt/minio-data1
           type: Directory
+      - name: data2
+        hostPath:
+          path: /mnt/minio-data2
+          type: DirectoryOrCreate
