@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: orchestrator
+  namespace: mysql
+  labels:
+    app: orchestrator
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: 3000
+      name: http
+  selector:
+    app: orchestrator
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orchestrator
+  namespace: mysql
+  labels:
+    app: orchestrator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orchestrator
+  template:
+    metadata:
+      labels:
+        app: orchestrator
+    spec:
+      containers:
+      - name: orchestrator
+        image: openarkcode/orchestrator:latest
+        ports:
+        - containerPort: 3000
+          name: http
+        env:
+        - name: ORC_TOPOLOGY_USER
+          value: "orchestrator"
+        - name: ORC_TOPOLOGY_PASSWORD
+          value: "changeme-orchestrator-password"
+        volumeMounts:
+        - name: config
+          mountPath: /etc/orchestrator.conf.json
+          subPath: orchestrator.conf.json
+        - name: data
+          mountPath: /var/lib/orchestrator
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/status
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/status
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+      volumes:
+      - name: config
+        configMap:
+          name: orchestrator-config
+      - name: data
+        emptyDir: {}

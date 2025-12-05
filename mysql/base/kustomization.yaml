@@ -11,3 +11,7 @@ resources:
   - mysql-primary.yaml
   - mysql-replicas.yaml
   - mysql-dev.yaml
+  - orchestrator-config.yaml
+  - orchestrator-deployment.yaml
+  - proxysql-config.yaml
+  - proxysql-deployment.yaml
