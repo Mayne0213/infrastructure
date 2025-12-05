@@ -17,7 +17,6 @@ data:
 
   replica.cnf: |
     [mysqld]
-    server-id={{ SERVER_ID }}
     relay-log=mysql-relay-bin
     log-bin=mysql-bin
     binlog-format=ROW
