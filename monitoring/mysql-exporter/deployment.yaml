@@ -34,14 +34,13 @@ spec:
             - containerPort: 9104
               name: metrics
           args:
+            - --config.my-cnf=/etc/mysql-exporter/.my.cnf
             - --no-collect.info_schema.innodb_tablespaces
             - --no-collect.info_schema.innodb_metrics
-          env:
-            - name: DATA_SOURCE_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-exporter-secret
-                  key: data-source-name
+          volumeMounts:
+            - name: config
+              mountPath: /etc/mysql-exporter
+              readOnly: true
           resources:
             requests:
               memory: "64Mi"
@@ -61,3 +60,7 @@ spec:
               port: 9104
             initialDelaySeconds: 10
             periodSeconds: 5
+      volumes:
+        - name: config
+          configMap:
+            name: mysql-exporter-config
