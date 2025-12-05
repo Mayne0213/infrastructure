@@ -214,7 +214,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum(kube_pod_container_resource_requests{resource=\"cpu\", cluster=\"$cluster\"}) / sum(machine_cpu_cores{cluster=\"$cluster\"})",
+          "expr": "sum(kube_pod_container_resource_requests{resource=\"cpu\", cluster=\"$cluster\"}) / sum(kube_pod_container_resource_limits{resource=\"cpu\", cluster=\"$cluster\"})",
           "hide": false,
           "legendFormat": "Requests",
           "range": true,
@@ -363,7 +363,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum(kube_pod_container_resource_requests{resource=\"memory\", cluster=\"$cluster\"}) / sum(machine_memory_bytes{cluster=\"$cluster\"})",
+          "expr": "sum(kube_pod_container_resource_requests{resource=\"memory\", cluster=\"$cluster\"}) / sum(kube_pod_container_resource_limits{resource=\"memory\", cluster=\"$cluster\"})",
           "hide": false,
           "legendFormat": "Requests",
           "range": true,
