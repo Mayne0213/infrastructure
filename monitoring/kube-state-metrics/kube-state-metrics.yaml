@@ -122,10 +122,10 @@ spec:
           timeoutSeconds: 5
         resources:
           requests:
-            cpu: 25m
+            cpu: 10m
             memory: 64Mi
           limits:
-            cpu: 200m
+            cpu: 50m
             memory: 256Mi
 ---
 apiVersion: v1
