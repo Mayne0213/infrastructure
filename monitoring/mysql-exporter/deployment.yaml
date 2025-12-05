@@ -39,6 +39,8 @@ spec:
                 secretKeyRef:
                   name: mysql-exporter-secret
                   key: data-source-name
+            - name: MYSQLD_EXPORTER_PASSWORD
+              value: ""
           resources:
             requests:
               memory: "64Mi"
