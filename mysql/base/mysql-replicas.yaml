@@ -40,7 +40,7 @@ spec:
         instance: replica1
     spec:
       nodeSelector:
-        kubernetes.io/hostname: oracle-worker1
+        kubernetes.io/hostname: mayne-worker-1
       containers:
         - name: mysql
           image: mysql:8.0
@@ -140,7 +140,7 @@ spec:
         instance: replica2
     spec:
       nodeSelector:
-        kubernetes.io/hostname: oracle-worker2
+        kubernetes.io/hostname: mayne-worker-2
       containers:
         - name: mysql
           image: mysql:8.0

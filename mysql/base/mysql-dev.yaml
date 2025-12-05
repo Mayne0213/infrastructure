@@ -34,7 +34,7 @@ spec:
         env: dev
     spec:
       nodeSelector:
-        kubernetes.io/hostname: oracle-master
+        kubernetes.io/hostname: mayne-vcn
       containers:
         - name: mysql
           image: mysql:8.0
