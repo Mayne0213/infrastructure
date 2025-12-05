@@ -82,7 +82,6 @@ spec:
             cpu: "25m"
           limits:
             memory: "2Gi"
-            cpu: "200m"
       volumes:
       - name: data1
         hostPath:
