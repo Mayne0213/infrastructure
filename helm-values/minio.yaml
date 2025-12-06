@@ -49,6 +49,10 @@ ingress:
 consoleIngress:
   enabled: false
 
+# Disable Kubernetes service links to prevent MINIO_SERVICE_PORT conflict
+# This prevents Kubernetes from injecting service-related environment variables
+enableServiceLinks: false
+
 # Prometheus metrics
 metrics:
   serviceMonitor:
