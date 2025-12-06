@@ -3,11 +3,11 @@
 
 fullnameOverride: mysql-dev
 
-# Use AWS ECR Public for Bitnami images
+# Use AWS ECR Public for Bitnami images (ARM64 compatible)
 image:
   registry: public.ecr.aws
   repository: bitnami/mysql
-  tag: "8.0"
+  tag: "8.0.39-debian-12-r5"
   pullPolicy: IfNotPresent
 
 # Allow non-standard images
