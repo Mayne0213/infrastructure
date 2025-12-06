@@ -17,6 +17,7 @@ spec:
         argocd.argoproj.io/secret-type: repository
       name: repo-jaejadle
       namespace: argocd
+---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
@@ -36,6 +37,7 @@ spec:
         argocd.argoproj.io/secret-type: repository
       name: repo-infrastructure
       namespace: argocd
+---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
@@ -55,6 +57,7 @@ spec:
         argocd.argoproj.io/secret-type: repository
       name: repo-joossam
       namespace: argocd
+---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
@@ -74,6 +77,7 @@ spec:
         argocd.argoproj.io/secret-type: repository
       name: repo-jovies
       namespace: argocd
+---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
@@ -93,6 +97,7 @@ spec:
         argocd.argoproj.io/secret-type: repository
       name: repo-portfolio
       namespace: argocd
+---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
