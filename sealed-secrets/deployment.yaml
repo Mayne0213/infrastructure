@@ -18,8 +18,8 @@ spec:
       serviceAccountName: sealed-secrets-controller
       containers:
       - name: sealed-secrets-controller
-        image: ghcr.io/bitnami-labs/sealed-secrets-controller:v0.26.2
-        imagePullPolicy: IfNotPresent
+        image: docker.io/bitnami/sealed-secrets-controller:latest
+        imagePullPolicy: Always
         command:
         - controller
         args:
