@@ -1,0 +1,75 @@
+# Loki Helm Values
+# Chart: https://grafana.github.io/helm-charts
+# Simple scalable deployment for small to medium workloads
+
+loki:
+  # Use filesystem storage (simple setup)
+  storage:
+    type: filesystem
+  
+  # Single binary mode for simplicity
+  commonConfig:
+    replication_factor: 1
+  
+  # Schema config
+  schemaConfig:
+    configs:
+      - from: "2024-01-01"
+        store: tsdb
+        object_store: filesystem
+        schema: v13
+        index:
+          prefix: index_
+          period: 24h
+
+  # Limits
+  limits_config:
+    retention_period: 168h  # 7 days
+    ingestion_rate_mb: 10
+    ingestion_burst_size_mb: 20
+    max_streams_per_user: 10000
+
+  # Auth disabled for simplicity
+  auth_enabled: false
+
+# Use single binary deployment (simpler)
+deploymentMode: SingleBinary
+
+singleBinary:
+  replicas: 1
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: local-path
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 1Gi
+
+# Disable components not needed in single binary mode
+backend:
+  replicas: 0
+read:
+  replicas: 0
+write:
+  replicas: 0
+
+# Gateway disabled (direct access)
+gateway:
+  enabled: false
+
+# Disable monitoring components
+monitoring:
+  selfMonitoring:
+    enabled: false
+    grafanaAgent:
+      installOperator: false
+  lokiCanary:
+    enabled: false
+
+# Test disabled
+test:
+  enabled: false
+
