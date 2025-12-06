@@ -22,7 +22,7 @@ primary:
   persistence:
     enabled: true
     size: 30Gi
-    storageClass: local-path
+    storageClass: mariadb-local
   
   configuration: |-
     [mysqld]

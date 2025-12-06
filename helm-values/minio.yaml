@@ -20,11 +20,11 @@ replicas: 4
 # Number of drives per node (each pod uses 1 drive)
 drivesPerNode: 1
 
-# Persistence - 45Gi to account for filesystem overhead
+# Persistence - using dedicated 50GB disks
 persistence:
   enabled: true
   size: 45Gi
-  storageClass: local-path
+  storageClass: minio-local
 
 # Root credentials
 rootUser: admin
