@@ -17,5 +17,5 @@ echo ""
 echo "Press Ctrl+C to stop port-forwarding"
 echo ""
 
-# Start port-forwarding
-ssh oracle-master "sudo kubectl port-forward -n mysql svc/proxysql 6033:6033"
+# Start port-forwarding (remote listens on 6034, forwards to proxysql:6033)
+ssh oracle-master "sudo kubectl port-forward -n mysql svc/proxysql 6034:6033"
