@@ -1,17 +1,23 @@
 # MinIO Helm Values
 # Chart: https://github.com/minio/minio/tree/master/helm/minio
-# Mode: Distributed (3 nodes)
+# Mode: Distributed with Erasure Coding (4 drives total)
+#
+# Disk allocation:
+# - master node: 1 x 50GB (1 disk for MinIO, 1 for MariaDB)
+# - worker-1: 2 x 50GB (2 disks for MinIO)
+# - worker-2: 1 x 50GB (1 disk for MinIO)
+# Total: 4 drives for erasure coding
 
-# Replicas for distributed mode
-replicas: 3
+# 4 replicas, 1 drive per replica = 4 drives total
+replicas: 4
 
-# Number of drives per node
-drivesPerNode: 2
+# Number of drives per node (each pod uses 1 drive)
+drivesPerNode: 1
 
-# Persistence
+# Persistence - 45Gi to account for filesystem overhead
 persistence:
   enabled: true
-  size: 10Gi
+  size: 45Gi
   storageClass: local-path
 
 # Root credentials
@@ -52,6 +58,20 @@ consoleIngress:
 # Disable Kubernetes service links to prevent MINIO_SERVICE_PORT conflict
 # This prevents Kubernetes from injecting service-related environment variables
 enableServiceLinks: false
+
+# Use soft anti-affinity since worker-1 needs 2 pods (has 2 disks)
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - minio
+          topologyKey: kubernetes.io/hostname
 
 # Prometheus metrics
 metrics:
