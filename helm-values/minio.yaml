@@ -1,0 +1,51 @@
+# MinIO Helm Values
+# Chart: https://github.com/bitnami/charts/tree/main/bitnami/minio
+# Mode: Distributed (3 nodes)
+
+fullnameOverride: minio
+
+mode: distributed
+
+statefulset:
+  replicaCount: 3
+  zones: 1
+  drivesPerNode: 2
+
+auth:
+  rootUser: admin
+  rootPassword: "changeme-minio-password"
+
+persistence:
+  enabled: true
+  size: 10Gi
+  storageClass: local-path
+
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "100m"
+  limits:
+    memory: "2Gi"
+
+# API and Console settings
+extraEnvVars:
+  - name: MINIO_API_CORS_ALLOW_ORIGIN
+    value: "*"
+  - name: MINIO_BROWSER_REDIRECT_URL
+    value: "https://minio.minio0213.kro.kr"
+  - name: MINIO_PROMETHEUS_AUTH_TYPE
+    value: "public"
+
+service:
+  type: ClusterIP
+  ports:
+    api: 9000
+    console: 9001
+
+# Ingress (if needed)
+ingress:
+  enabled: false
+
+# Pod anti-affinity for distributed deployment
+podAntiAffinityPreset: hard
+

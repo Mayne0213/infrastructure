@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: mysql
+  name: mysql-dev
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -15,7 +15,7 @@ spec:
       targetRevision: 12.2.2
       helm:
         valueFiles:
-          - $values/helm-values/mysql.yaml
+          - $values/helm-values/mysql-dev.yaml
     # Values file from Git repository
     - repoURL: https://github.com/Mayne0213/infrastructure.git
       targetRevision: main
@@ -23,7 +23,7 @@ spec:
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: mysql
+    namespace: mysql-dev
 
   syncPolicy:
     automated:
@@ -44,3 +44,4 @@ spec:
         maxDuration: 3m
 
   revisionHistoryLimit: 10
+

@@ -16,9 +16,11 @@ resources:
   - argocd/applications/jaejadle-dev.yaml
   - argocd/applications/joossam.yaml
   - argocd/applications/joossam-dev.yaml
-  - argocd/applications/mysql.yaml
   
   # Infrastructure (Helm-based)
+  - argocd/applications/mysql.yaml
+  - argocd/applications/mysql-dev.yaml
+  - argocd/applications/minio.yaml
   - argocd/applications/sealed-secrets.yaml
   - argocd/applications/prometheus.yaml
   - argocd/applications/alertmanager.yaml

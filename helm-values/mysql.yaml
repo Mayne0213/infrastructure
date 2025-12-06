@@ -1,0 +1,75 @@
+# MySQL (Production) Helm Values
+# Chart: https://github.com/bitnami/charts/tree/main/bitnami/mysql
+# Architecture: Primary + 2 Replicas with replication
+
+fullnameOverride: mysql
+
+architecture: replication
+
+auth:
+  rootPassword: "changeme-root-password"
+  replicationUser: replicator
+  replicationPassword: "changeme-repl-password"
+
+primary:
+  configuration: |-
+    [mysqld]
+    server-id=1
+    log-bin=mysql-bin
+    binlog-format=ROW
+    max_connections=200
+    innodb_buffer_pool_size=512M
+    innodb_log_file_size=256M
+    character-set-server=utf8mb4
+    collation-server=utf8mb4_unicode_ci
+    default_authentication_plugin=mysql_native_password
+    skip-name-resolve
+    explicit_defaults_for_timestamp
+    
+  persistence:
+    enabled: true
+    size: 30Gi
+    storageClass: local-path
+  
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "25m"
+    limits:
+      memory: "1Gi"
+
+secondary:
+  replicaCount: 2
+  
+  configuration: |-
+    [mysqld]
+    relay-log=mysql-relay-bin
+    log-bin=mysql-bin
+    binlog-format=ROW
+    read_only=1
+    max_connections=200
+    innodb_buffer_pool_size=256M
+    character-set-server=utf8mb4
+    collation-server=utf8mb4_unicode_ci
+    default_authentication_plugin=mysql_native_password
+    skip-name-resolve
+    explicit_defaults_for_timestamp
+  
+  persistence:
+    enabled: true
+    size: 30Gi
+    storageClass: local-path
+  
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "25m"
+    limits:
+      memory: "512Mi"
+
+# Metrics for Prometheus
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: false
+
