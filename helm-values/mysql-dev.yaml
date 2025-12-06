@@ -4,6 +4,17 @@
 
 fullnameOverride: mysql-dev
 
+# Use official MySQL image
+image:
+  registry: docker.io
+  repository: mysql
+  tag: "8.0"
+
+# Allow non-Bitnami images
+global:
+  security:
+    allowInsecureImages: true
+
 architecture: standalone
 
 auth:

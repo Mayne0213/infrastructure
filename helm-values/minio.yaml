@@ -4,6 +4,17 @@
 
 fullnameOverride: minio
 
+# Use official MinIO image instead of Bitnami
+image:
+  registry: docker.io
+  repository: minio/minio
+  tag: RELEASE.2024-10-13T13-34-11Z
+
+# Allow non-Bitnami images
+global:
+  security:
+    allowInsecureImages: true
+
 mode: distributed
 
 statefulset:
