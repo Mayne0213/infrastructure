@@ -4,6 +4,12 @@
 
 fullnameOverride: mysql-dev
 
+# Use specific image tag
+image:
+  registry: docker.io
+  repository: bitnami/mysql
+  tag: 8.0.40-debian-12-r2
+
 architecture: standalone
 
 auth:
