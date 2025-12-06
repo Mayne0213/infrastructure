@@ -1,5 +1,5 @@
 #!/bin/bash
-# Connect to development database via kubectl port-forward
+# Connect to development database via SSH tunnel + kubectl port-forward
 # Usage: ./connect-dev-db.sh
 
 set -e
@@ -15,5 +15,8 @@ echo ""
 echo "Press Ctrl+C to stop port-forwarding"
 echo ""
 
-# Start port-forwarding (remote listens on 3307, forwards to mysql-dev:3306)
-ssh oracle-master "sudo kubectl port-forward -n mysql svc/mysql-dev 3307:3306"
+# Kill any existing port-forward on remote
+ssh oracle-master "sudo pkill -f 'kubectl port-forward.*mysql-dev' || true"
+
+# Start SSH tunnel: Local 3307 -> Remote 3307 -> mysql-dev:3306
+ssh -L 3307:127.0.0.1:3307 oracle-master "sudo kubectl port-forward -n mysql svc/mysql-dev 3307:3306"

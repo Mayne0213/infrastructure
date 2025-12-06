@@ -1,5 +1,5 @@
 #!/bin/bash
-# Connect to production database via ProxySQL
+# Connect to production database via SSH tunnel + ProxySQL
 # Usage: ./connect-prod-db.sh
 
 set -e
@@ -17,5 +17,8 @@ echo ""
 echo "Press Ctrl+C to stop port-forwarding"
 echo ""
 
-# Start port-forwarding (remote listens on 6034, forwards to proxysql:6033)
-ssh oracle-master "sudo kubectl port-forward -n mysql svc/proxysql 6034:6033"
+# Kill any existing port-forward on remote
+ssh oracle-master "sudo pkill -f 'kubectl port-forward.*proxysql' || true"
+
+# Start SSH tunnel: Local 6034 -> Remote 6034 -> proxysql:6033
+ssh -L 6034:127.0.0.1:6034 oracle-master "sudo kubectl port-forward -n mysql svc/proxysql 6034:6033"
