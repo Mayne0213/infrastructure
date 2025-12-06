@@ -4,11 +4,11 @@
 
 fullnameOverride: mysql
 
-# Use latest 8.0 image
+# Use Quay.io Bitnami image
 image:
-  registry: docker.io
+  registry: quay.io
   repository: bitnami/mysql
-  tag: 8.0
+  tag: 8.0.39
 
 architecture: replication
 

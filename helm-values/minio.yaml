@@ -4,11 +4,11 @@
 
 fullnameOverride: minio
 
-# Use latest image
+# Use Quay.io Bitnami image
 image:
-  registry: docker.io
+  registry: quay.io
   repository: bitnami/minio
-  tag: latest
+  tag: 2024.10.13
 
 mode: distributed
 
