@@ -1,0 +1,68 @@
+# Grafana Helm Values
+# Chart: https://github.com/grafana/helm-charts/tree/main/charts/grafana
+
+fullnameOverride: grafana
+
+adminUser: admin
+adminPassword: Admin12345
+
+persistence:
+  enabled: true
+  size: 2Gi
+  storageClass: local-path
+
+resources:
+  requests:
+    cpu: 25m
+    memory: 128Mi
+  limits:
+    memory: 256Mi
+
+service:
+  type: ClusterIP
+  port: 80
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      access: proxy
+      url: http://prometheus-server:80
+      isDefault: true
+      editable: true
+
+grafana.ini:
+  server:
+    root_url: "http://grafana0213.kro.kr"
+  auth.anonymous:
+    enabled: true
+    org_role: Admin
+  security:
+    allow_embedding: true
+  auth.basic:
+    enabled: false
+  auth:
+    disable_login_form: false
+    disable_signout_menu: true
+  news:
+    news_feed_enabled: false
+
+# 대시보드 프로비저닝 (필요시 추가)
+# dashboardProviders:
+#   dashboardproviders.yaml:
+#     apiVersion: 1
+#     providers:
+#     - name: 'default'
+#       orgId: 1
+#       folder: ''
+#       type: file
+#       disableDeletion: false
+#       editable: true
+#       options:
+#         path: /var/lib/grafana/dashboards/default
+
+# dashboardsConfigMaps:
+#   default: "grafana-dashboards"
+

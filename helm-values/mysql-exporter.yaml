@@ -1,0 +1,19 @@
+# Prometheus MySQL Exporter Helm Values
+# Chart: https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-mysql-exporter
+
+fullnameOverride: mysql-exporter
+
+mysql:
+  host: mysql-primary.mysql.svc.cluster.local
+  port: 3306
+  user: root
+  pass: changeme-root-password  # TODO: Secret으로 관리 권장
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 200m
+    memory: 128Mi
+

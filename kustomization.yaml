@@ -4,6 +4,8 @@ kind: Kustomization
 resources:
   - application.yaml
   - argocd/repositories.yaml
+  
+  # Application services
   - argocd/applications/jovies.yaml
   - argocd/applications/jovies-dev.yaml
   - argocd/applications/portfolio.yaml
@@ -14,7 +16,17 @@ resources:
   - argocd/applications/jaejadle-dev.yaml
   - argocd/applications/joossam.yaml
   - argocd/applications/joossam-dev.yaml
-  - argocd/applications/monitoring.yaml
   - argocd/applications/mysql.yaml
+  
+  # Infrastructure (Helm-based)
+  - argocd/applications/sealed-secrets.yaml
+  - argocd/applications/prometheus.yaml
+  - argocd/applications/alertmanager.yaml
+  - argocd/applications/grafana.yaml
+  - argocd/applications/kube-state-metrics.yaml
+  - argocd/applications/node-exporter.yaml
+  - argocd/applications/mysql-exporter.yaml
+  
+  # Other resources
   - cert-manager  # cert-manager ClusterIssuer 설정
   - ingress/ingress.yaml

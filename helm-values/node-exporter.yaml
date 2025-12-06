@@ -1,0 +1,23 @@
+# Prometheus Node Exporter Helm Values
+# Chart: https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-node-exporter
+
+fullnameOverride: node-exporter
+
+hostNetwork: true
+hostPID: true
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 50Mi
+  limits:
+    memory: 100Mi
+
+service:
+  type: ClusterIP
+  clusterIP: None
+
+tolerations:
+  - effect: NoSchedule
+    operator: Exists
+
