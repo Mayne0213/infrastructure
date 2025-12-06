@@ -4,12 +4,6 @@
 
 fullnameOverride: minio
 
-# Use Quay.io Bitnami image
-image:
-  registry: quay.io
-  repository: bitnami/minio
-  tag: 2024.10.13
-
 mode: distributed
 
 statefulset:

@@ -4,12 +4,6 @@
 
 fullnameOverride: mysql
 
-# Use Quay.io Bitnami image
-image:
-  registry: quay.io
-  repository: bitnami/mysql
-  tag: 8.0.39
-
 architecture: replication
 
 auth:
