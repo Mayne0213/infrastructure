@@ -1,16 +1,16 @@
 # MySQL (Development) Helm Values
-# Chart: https://github.com/bitnami/charts/tree/main/bitnami/mysql
-# Architecture: Standalone (single instance for development)
+# Uses Bitnami chart with registry from ghcr.io
 
 fullnameOverride: mysql-dev
 
-# Use official MySQL image
+# Try GHCR registry for Bitnami images
 image:
-  registry: docker.io
-  repository: mysql
+  registry: ghcr.io
+  repository: bitnamicharts/mysql
   tag: "8.0"
+  pullPolicy: IfNotPresent
 
-# Allow non-Bitnami images
+# Allow non-standard images
 global:
   security:
     allowInsecureImages: true
@@ -18,28 +18,23 @@ global:
 architecture: standalone
 
 auth:
-  rootPassword: "changeme-root-password"
-  database: dev_db
+  rootPassword: "dev-root-password"
+  database: devdb
+  username: devuser
+  password: "dev-user-password"
 
 primary:
-  configuration: |-
-    [mysqld]
-    max_connections=100
-    innodb_buffer_pool_size=256M
-    character-set-server=utf8mb4
-    collation-server=utf8mb4_unicode_ci
-    default_authentication_plugin=mysql_native_password
-    skip-name-resolve
-  
   persistence:
     enabled: true
-    size: 10Gi
+    size: 5Gi
     storageClass: local-path
   
   resources:
     requests:
-      memory: "128Mi"
-      cpu: "25m"
+      memory: "256Mi"
+      cpu: "50m"
     limits:
-      memory: "512Mi"
+      memory: "1Gi"
 
+metrics:
+  enabled: false

@@ -9,10 +9,10 @@ spec:
   project: default
 
   sources:
-    # Helm chart from Bitnami repository
-    - repoURL: https://charts.bitnami.com/bitnami
+    # Official MinIO Helm chart
+    - repoURL: https://charts.min.io
       chart: minio
-      targetRevision: 14.8.5
+      targetRevision: 5.2.0
       helm:
         valueFiles:
           - $values/helm-values/minio.yaml

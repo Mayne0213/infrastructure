@@ -1,16 +1,16 @@
 # MySQL (Production) Helm Values
-# Chart: https://github.com/bitnami/charts/tree/main/bitnami/mysql
-# Architecture: Primary + 2 Replicas with replication
+# Uses Bitnami chart with registry from ghcr.io
 
 fullnameOverride: mysql
 
-# Use official MySQL image
+# Try GHCR registry for Bitnami images
 image:
-  registry: docker.io
-  repository: mysql
+  registry: ghcr.io
+  repository: bitnamicharts/mysql
   tag: "8.0"
+  pullPolicy: IfNotPresent
 
-# Allow non-Bitnami images
+# Allow non-standard images
 global:
   security:
     allowInsecureImages: true
@@ -18,69 +18,72 @@ global:
 architecture: replication
 
 auth:
-  rootPassword: "changeme-root-password"
+  rootPassword: "root-password-change-me"
+  database: mydb
+  username: myuser
+  password: "user-password-change-me"
   replicationUser: replicator
-  replicationPassword: "changeme-repl-password"
+  replicationPassword: "repl-password-change-me"
 
 primary:
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: local-path
+  
   configuration: |-
     [mysqld]
-    server-id=1
-    log-bin=mysql-bin
-    binlog-format=ROW
-    max_connections=200
-    innodb_buffer_pool_size=512M
-    innodb_log_file_size=256M
-    character-set-server=utf8mb4
-    collation-server=utf8mb4_unicode_ci
     default_authentication_plugin=mysql_native_password
     skip-name-resolve
     explicit_defaults_for_timestamp
+    basedir=/opt/bitnami/mysql
+    plugin_dir=/opt/bitnami/mysql/lib/plugin
+    port=3306
+    socket=/opt/bitnami/mysql/tmp/mysql.sock
+    datadir=/bitnami/mysql/data
+    tmpdir=/opt/bitnami/mysql/tmp
+    max_allowed_packet=16M
+    bind-address=*
+    pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+    log-error=/opt/bitnami/mysql/logs/mysqld.log
+    character-set-server=utf8mb4
+    collation-server=utf8mb4_unicode_ci
+    slow_query_log=0
+    long_query_time=10.0
     
-  persistence:
-    enabled: true
-    size: 30Gi
-    storageClass: local-path
-  
+    [client]
+    port=3306
+    socket=/opt/bitnami/mysql/tmp/mysql.sock
+    default-character-set=UTF8
+    plugin_dir=/opt/bitnami/mysql/lib/plugin
+    
+    [manager]
+    port=3306
+    socket=/opt/bitnami/mysql/tmp/mysql.sock
+    pid-file=/opt/bitnami/mysql/tmp/mysqld.pid
+
   resources:
     requests:
-      memory: "256Mi"
-      cpu: "25m"
+      memory: "512Mi"
+      cpu: "100m"
     limits:
-      memory: "1Gi"
+      memory: "2Gi"
 
 secondary:
   replicaCount: 2
-  
-  configuration: |-
-    [mysqld]
-    relay-log=mysql-relay-bin
-    log-bin=mysql-bin
-    binlog-format=ROW
-    read_only=1
-    max_connections=200
-    innodb_buffer_pool_size=256M
-    character-set-server=utf8mb4
-    collation-server=utf8mb4_unicode_ci
-    default_authentication_plugin=mysql_native_password
-    skip-name-resolve
-    explicit_defaults_for_timestamp
-  
   persistence:
     enabled: true
-    size: 30Gi
+    size: 10Gi
     storageClass: local-path
   
   resources:
     requests:
-      memory: "256Mi"
-      cpu: "25m"
-    limits:
       memory: "512Mi"
+      cpu: "100m"
+    limits:
+      memory: "2Gi"
 
-# Metrics for Prometheus
 metrics:
   enabled: true
   serviceMonitor:
     enabled: false
-
