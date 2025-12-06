@@ -12,7 +12,7 @@ spec:
     # Helm chart from Bitnami repository
     - repoURL: https://charts.bitnami.com/bitnami
       chart: minio
-      targetRevision: 15.0.5
+      targetRevision: 14.8.5
       helm:
         valueFiles:
           - $values/helm-values/minio.yaml
