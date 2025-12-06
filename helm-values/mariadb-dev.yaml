@@ -4,6 +4,10 @@
 
 fullnameOverride: mariadb-dev
 
+# Use latest tag (ARM64 compatible)
+image:
+  tag: latest
+
 architecture: standalone
 
 auth:
