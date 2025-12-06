@@ -68,11 +68,10 @@ spec:
           readinessProbe:
             exec:
               command:
-                - mysql
+                - mysqladmin
+                - ping
                 - -h
                 - localhost
-                - -e
-                - "SELECT 1"
             initialDelaySeconds: 10
             periodSeconds: 5
             timeoutSeconds: 2
