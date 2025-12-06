@@ -8,7 +8,5 @@ resources:
   - prometheus
   - alertmanager
   - grafana
-  - node-exporter
-  - kube-state-metrics
-  - mysql-exporter
+  # node-exporter, kube-state-metrics, mysql-exporter는 Helm으로 설치됨
 
