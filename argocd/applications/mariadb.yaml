@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: mysql
+  name: mariadb
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -11,11 +11,11 @@ spec:
   sources:
     # Helm chart from Bitnami repository
     - repoURL: https://charts.bitnami.com/bitnami
-      chart: mysql
-      targetRevision: 11.1.17
+      chart: mariadb
+      targetRevision: 20.2.1
       helm:
         valueFiles:
-          - $values/helm-values/mysql.yaml
+          - $values/helm-values/mariadb.yaml
     # Values file from Git repository
     - repoURL: https://github.com/Mayne0213/infrastructure.git
       targetRevision: main
@@ -23,7 +23,7 @@ spec:
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: mysql
+    namespace: mariadb
 
   syncPolicy:
     automated:
@@ -44,3 +44,4 @@ spec:
         maxDuration: 3m
 
   revisionHistoryLimit: 10
+

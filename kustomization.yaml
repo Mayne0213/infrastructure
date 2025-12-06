@@ -21,8 +21,8 @@ resources:
   - argocd/applications/cert-manager.yaml
   - argocd/applications/cert-manager-issuers.yaml
   - argocd/applications/ingress-nginx.yaml
-  - argocd/applications/mysql.yaml
-  - argocd/applications/mysql-dev.yaml
+  - argocd/applications/mariadb.yaml
+  - argocd/applications/mariadb-dev.yaml
   - argocd/applications/minio.yaml
   - argocd/applications/sealed-secrets.yaml
   - argocd/applications/prometheus.yaml
