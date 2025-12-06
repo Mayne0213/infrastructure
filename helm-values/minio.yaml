@@ -8,6 +8,12 @@
 # - worker-2: 1 x 50GB (1 disk for MinIO)
 # Total: 4 drives for erasure coding
 
+# Use latest MinIO image
+image:
+  repository: quay.io/minio/minio
+  tag: latest
+  pullPolicy: IfNotPresent
+
 # 4 replicas, 1 drive per replica = 4 drives total
 replicas: 4
 
