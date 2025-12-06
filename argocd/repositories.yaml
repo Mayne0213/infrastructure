@@ -1,6 +1,45 @@
 apiVersion: v1
 kind: Secret
 metadata:
+  name: repo-jaejadle
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  type: git
+  url: https://github.com/Mayne0213/jaejadle.git
+  username: Mayne0213
+  password: YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: repo-infrastructure
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  type: git
+  url: https://github.com/Mayne0213/infrastructure.git
+  username: Mayne0213
+  password: YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: repo-joossam
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+stringData:
+  type: git
+  url: https://github.com/Mayne0213/joossam.git
+  username: Mayne0213
+  password: YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
+---
+apiVersion: v1
+kind: Secret
+metadata:
   name: repo-jovies
   namespace: argocd
   labels:
@@ -8,6 +47,8 @@ metadata:
 stringData:
   type: git
   url: https://github.com/Mayne0213/jovies.git
+  username: Mayne0213
+  password: YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
 ---
 apiVersion: v1
 kind: Secret
@@ -19,6 +60,8 @@ metadata:
 stringData:
   type: git
   url: https://github.com/Mayne0213/portfolio.git
+  username: Mayne0213
+  password: YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
 ---
 apiVersion: v1
 kind: Secret
@@ -30,3 +73,6 @@ metadata:
 stringData:
   type: git
   url: https://github.com/Mayne0213/todo.git
+  username: Mayne0213
+  password: YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
+
