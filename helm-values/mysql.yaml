@@ -3,10 +3,10 @@
 
 fullnameOverride: mysql
 
-# Try GHCR registry for Bitnami images
+# Use AWS ECR Public for Bitnami images
 image:
-  registry: ghcr.io
-  repository: bitnamicharts/mysql
+  registry: public.ecr.aws
+  repository: bitnami/mysql
   tag: "8.0"
   pullPolicy: IfNotPresent
 
