@@ -18,4 +18,5 @@ resources:
   - argocd/applications/mysql.yaml
   - cert-manager  # cert-manager ClusterIssuer 설정
   - ingress/ingress.yaml
+  - sealed-secrets  # Sealed Secrets controller
 
