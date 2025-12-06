@@ -19,7 +19,7 @@ auth:
 primary:
   persistence:
     enabled: true
-    size: 5Gi
+    size: 10Gi
     storageClass: local-path
   
   resources:
