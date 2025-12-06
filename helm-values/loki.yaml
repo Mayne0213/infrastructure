@@ -1,6 +1,6 @@
 # Loki Helm Values
 # Chart: https://grafana.github.io/helm-charts
-# Simple scalable deployment for small to medium workloads
+# Simple single binary deployment
 
 loki:
   # Use filesystem storage (simple setup)
@@ -58,6 +58,12 @@ write:
 
 # Gateway disabled (direct access)
 gateway:
+  enabled: false
+
+# Disable all caching (use simple mode)
+chunksCache:
+  enabled: false
+resultsCache:
   enabled: false
 
 # Disable monitoring components
