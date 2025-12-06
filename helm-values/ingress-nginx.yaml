@@ -1,0 +1,37 @@
+# Ingress-Nginx Controller Helm Values
+# Chart: https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
+
+controller:
+  replicaCount: 1
+  
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      memory: 256Mi
+  
+  # Metrics for Prometheus
+  metrics:
+    enabled: true
+    port: 10254
+    
+  # Allow snippet annotations
+  allowSnippetAnnotations: true
+  
+  # Watch all namespaces
+  watchIngressWithoutClass: true
+  
+  # Service configuration
+  service:
+    type: LoadBalancer
+    externalTrafficPolicy: Local
+  
+  # Admission webhooks
+  admissionWebhooks:
+    enabled: true
+
+# Default backend (optional)
+defaultBackend:
+  enabled: false
+

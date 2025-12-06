@@ -18,6 +18,9 @@ resources:
   - argocd/applications/joossam-dev.yaml
   
   # Infrastructure (Helm-based)
+  - argocd/applications/cert-manager.yaml
+  - argocd/applications/cert-manager-issuers.yaml
+  - argocd/applications/ingress-nginx.yaml
   - argocd/applications/mysql.yaml
   - argocd/applications/mysql-dev.yaml
   - argocd/applications/minio.yaml
@@ -29,6 +32,5 @@ resources:
   - argocd/applications/node-exporter.yaml
   - argocd/applications/mysql-exporter.yaml
   
-  # Other resources
-  - cert-manager  # cert-manager ClusterIssuer 설정
+  # Other resources (Ingress rules for all services)
   - ingress/ingress.yaml
