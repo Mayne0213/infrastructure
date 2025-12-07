@@ -10,8 +10,9 @@ mysql:
   port: 3306
   user: bluemayne
   # Password is managed via SealedSecret: mysql-exporter-password
-  existingSecret: mysql-exporter-password
-  existingSecretKey: pass
+  existingPasswordSecret:
+    name: mysql-exporter-password
+    key: pass
 
 resources:
   requests:
