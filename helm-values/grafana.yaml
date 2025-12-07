@@ -10,6 +10,7 @@ persistence:
   enabled: true
   size: 2Gi
   storageClass: local-path
+  initChownData: false
 
 podSecurityContext:
   fsGroup: 472
