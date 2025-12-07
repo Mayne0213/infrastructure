@@ -108,9 +108,14 @@ serverFiles:
             replacement: mariadb-primary-0
           - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name, __meta_kubernetes_pod_label_app_kubernetes_io_instance]
             action: replace
-            regex: prometheus-mysql-exporter;(mysql-exporter-secondary-\d+)
+            regex: prometheus-mysql-exporter;mysql-exporter-secondary-0
             target_label: instance
-            replacement: mariadb-${1}
+            replacement: mariadb-secondary-0
+          - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name, __meta_kubernetes_pod_label_app_kubernetes_io_instance]
+            action: replace
+            regex: prometheus-mysql-exporter;mysql-exporter-secondary-1
+            target_label: instance
+            replacement: mariadb-secondary-1
       - job_name: node-exporter
         kubernetes_sd_configs:
           - role: endpoints
