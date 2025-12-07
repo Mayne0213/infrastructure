@@ -53,8 +53,7 @@ grafana.ini:
   server:
     root_url: "http://grafana0213.kro.kr"
   auth.anonymous:
-    enabled: true
-    org_role: Admin
+    enabled: false
   security:
     allow_embedding: true
   auth.basic:
