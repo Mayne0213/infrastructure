@@ -97,6 +97,20 @@ serverFiles:
           - source_labels: [__meta_kubernetes_pod_name]
             action: replace
             target_label: kubernetes_pod_name
+          # For MySQL exporter pods, map instance label for better identification in Grafana
+          # mysql-exporter -> mariadb-primary-0
+          # mysql-exporter-secondary-0 -> mariadb-secondary-0
+          # mysql-exporter-secondary-1 -> mariadb-secondary-1
+          - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name, __meta_kubernetes_pod_label_app_kubernetes_io_instance]
+            action: replace
+            regex: prometheus-mysql-exporter;mysql-exporter$
+            target_label: instance
+            replacement: mariadb-primary-0
+          - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name, __meta_kubernetes_pod_label_app_kubernetes_io_instance]
+            action: replace
+            regex: prometheus-mysql-exporter;(mysql-exporter-secondary-\d+)
+            target_label: instance
+            replacement: mariadb-${1}
       - job_name: node-exporter
         kubernetes_sd_configs:
           - role: endpoints
@@ -181,38 +195,6 @@ serverFiles:
         static_configs:
           - targets:
             - cert-manager.cert-manager.svc.cluster.local:9402
-      # MySQL Exporter for mariadb-primary-0
-      - job_name: mysql-exporter-primary
-        static_configs:
-          - targets:
-            - mysql-exporter.monitoring.svc.cluster.local:9104
-            labels:
-              instance: mariadb-primary-0
-              mysql_instance: primary
-      # MySQL Exporter for mariadb-secondary-0
-      - job_name: mysql-exporter-secondary-0
-        static_configs:
-          - targets:
-            - mysql-exporter-secondary-0.monitoring.svc.cluster.local:9104
-            labels:
-              instance: mariadb-secondary-0
-              mysql_instance: secondary-0
-      # MySQL Exporter for mariadb-secondary-1
-      - job_name: mysql-exporter-secondary-1
-        static_configs:
-          - targets:
-            - mysql-exporter-secondary-1.monitoring.svc.cluster.local:9104
-            labels:
-              instance: mariadb-secondary-1
-              mysql_instance: secondary-1
-      # ProxySQL monitoring (optional - can be added later if needed)
-      # - job_name: proxysql
-      #   static_configs:
-      #     - targets:
-      #       - proxysql-exporter.monitoring.svc.cluster.local:42004
-      #       labels:
-      #         instance: proxysql
-      #         mysql_instance: proxysql
       - job_name: minio-cluster
         static_configs:
           - targets:

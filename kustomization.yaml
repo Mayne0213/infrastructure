@@ -31,6 +31,8 @@ resources:
   - argocd/applications/kube-state-metrics.yaml
   - argocd/applications/node-exporter.yaml
   - argocd/applications/mysql-exporter.yaml
+  - argocd/applications/mysql-exporter-secondary-0.yaml
+  - argocd/applications/mysql-exporter-secondary-1.yaml
   
   # Other resources (Ingress rules for all services)
   - ingress/ingress.yaml
