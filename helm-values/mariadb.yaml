@@ -13,14 +13,14 @@ architecture: replication
 auth:
   # Passwords are managed via SealedSecrets
   existingSecret: mariadb-root-password
-  existingSecretKey: rootPassword
+  existingSecretKey: mariadb-root-password
   database: mydb
   username: bluemayne
   existingSecretForUser: mariadb-password
-  existingSecretKeyForUser: password
+  existingSecretKeyForUser: mariadb-password
   replicationUser: replicator
   existingSecretForReplicationUser: mariadb-replication-password
-  existingSecretKeyForReplicationUser: replicationPassword
+  existingSecretKeyForReplicationUser: mariadb-replication-password
 
 primary:
   persistence:
