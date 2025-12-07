@@ -11,6 +11,10 @@ persistence:
   size: 2Gi
   storageClass: local-path
 
+podSecurityContext:
+  fsGroup: 472
+  fsGroupChangePolicy: "Always"
+
 resources:
   requests:
     cpu: 25m
