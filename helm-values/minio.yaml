@@ -30,7 +30,7 @@ persistence:
 rootUser: bluemayne
 # Password is managed via SealedSecret: minio-root-password
 existingSecret: minio-root-password
-existingSecretKey: rootPassword
+existingSecretKey: root-password
 
 # Resources
 resources:
