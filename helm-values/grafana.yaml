@@ -3,10 +3,11 @@
 
 fullnameOverride: grafana
 
-adminUser: bluemayne
-# Password is managed via SealedSecret: grafana-admin-password
-existingSecret: grafana-admin-password
-existingSecretKey: adminPassword
+admin:
+  user: bluemayne
+  # Password is managed via SealedSecret: grafana-admin-password
+  existingSecret: grafana-admin-password
+  passwordKey: adminPassword
 
 persistence:
   enabled: true
