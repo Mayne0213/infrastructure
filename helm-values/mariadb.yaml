@@ -14,7 +14,6 @@ auth:
   # Passwords are managed via SealedSecrets
   existingSecret: mariadb-root-password
   existingSecretKey: mariadb-root-password
-  database: mydb
   username: bluemayne
   existingSecretForUser: mariadb-password
   existingSecretKeyForUser: mariadb-password
