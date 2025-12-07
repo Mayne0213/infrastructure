@@ -7,6 +7,7 @@ admin:
   user: bluemayne
   # Password is managed via SealedSecret: grafana-admin-password
   existingSecret: grafana-admin-password
+  userKey: admin-user
   passwordKey: adminPassword
 
 persistence:
