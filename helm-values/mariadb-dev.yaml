@@ -11,10 +11,13 @@ image:
 architecture: standalone
 
 auth:
-  rootPassword: "dev-root-password"
+  # Passwords are managed via SealedSecrets (using root folder secrets)
+  existingSecret: mariadb-root-password
+  existingSecretKey: rootPassword
   database: devdb
-  username: devuser
-  password: "dev-user-password"
+  username: bluemayne
+  existingSecretForUser: mariadb-password
+  existingSecretKeyForUser: password
 
 primary:
   persistence:

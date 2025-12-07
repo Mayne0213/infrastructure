@@ -67,8 +67,8 @@ spec:
           periodSeconds: 5
       volumes:
       - name: config
-        configMap:
-          name: proxysql-config
+        secret:
+          secretName: proxysql-config
       - name: data
         emptyDir: {}
 

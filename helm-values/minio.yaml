@@ -27,8 +27,10 @@ persistence:
   storageClass: minio-local
 
 # Root credentials
-rootUser: admin
-rootPassword: "changeme-minio-password"
+rootUser: bluemayne
+# Password is managed via SealedSecret: minio-root-password
+existingSecret: minio-root-password
+existingSecretKey: rootPassword
 
 # Resources
 resources:

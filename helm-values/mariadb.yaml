@@ -11,12 +11,16 @@ image:
 architecture: replication
 
 auth:
-  rootPassword: "root-password-change-me"
+  # Passwords are managed via SealedSecrets
+  existingSecret: mariadb-root-password
+  existingSecretKey: rootPassword
   database: mydb
-  username: myuser
-  password: "user-password-change-me"
+  username: bluemayne
+  existingSecretForUser: mariadb-password
+  existingSecretKeyForUser: password
   replicationUser: replicator
-  replicationPassword: "repl-password-change-me"
+  existingSecretForReplicationUser: mariadb-replication-password
+  existingSecretKeyForReplicationUser: replicationPassword
 
 primary:
   persistence:
