@@ -50,11 +50,8 @@ resources:
   - sealed-secrets/postgresql/root/postgresql-password.yaml
   - sealed-secrets/postgresql/root/postgresql-password-dev.yaml
   
-  # Application Secrets
-  - sealed-secrets/todo/sealed-todo-secrets.yaml
-  - sealed-secrets/todo/sealed-todo-secrets-dev.yaml
-  - sealed-secrets/jaejadle/sealed-jaejadle-secret.yaml
-  - sealed-secrets/jaejadle/sealed-jaejadle-secret-dev.yaml
+  # Note: Todo and Jaejadle secrets are managed in their own repos
+  # under deploy/k8s/overlays/{prod,dev}/ and deployed by their ArgoCD apps
   
   - sealed-secrets/minio/minio-root-password.yaml
   - sealed-secrets/kubernetes-dashboard/admin-user.yaml
