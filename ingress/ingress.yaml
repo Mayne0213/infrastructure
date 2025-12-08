@@ -528,11 +528,11 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - analytics0213.kro.kr
-    - www.analytics0213.kro.kr
+    - umami0213.kro.kr
+    - www.umami0213.kro.kr
     secretName: umami-tls
   rules:
-    - host: analytics0213.kro.kr
+    - host: umami0213.kro.kr
       http:
         paths:
           - path: /
@@ -542,7 +542,7 @@ spec:
                 name: umami
                 port:
                   number: 3000
-    - host: www.analytics0213.kro.kr
+    - host: www.umami0213.kro.kr
       http:
         paths:
           - path: /
