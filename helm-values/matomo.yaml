@@ -4,6 +4,10 @@
 
 fullnameOverride: matomo
 
+# Use latest tag (ARM64 compatible)
+image:
+  tag: latest
+
 mariadb:
   enabled: false
 
@@ -40,7 +44,9 @@ resources:
 # Service
 service:
   type: ClusterIP
-  port: 80
+  ports:
+    http: 8080
+    https: 8443
 
 # Ingress (optional, configure as needed)
 ingress:
