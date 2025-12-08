@@ -34,6 +34,7 @@ resources:
   - argocd/applications/mysql-exporter-secondary-0.yaml
   - argocd/applications/mysql-exporter-secondary-1.yaml
   - argocd/applications/kubernetes-dashboard.yaml
+  - argocd/applications/matomo.yaml
   
   # Other resources (Ingress rules for all services)
   - ingress/ingress.yaml
@@ -51,3 +52,5 @@ resources:
   - sealed-secrets/proxysql/proxysql-monitor-password.yaml
   - sealed-secrets/proxysql/proxysql-config.yaml
   - sealed-secrets/kubernetes-dashboard/admin-user.yaml
+  - sealed-secrets/matomo/mariadb-password.yaml
+  - sealed-secrets/matomo/matomo-admin-password.yaml

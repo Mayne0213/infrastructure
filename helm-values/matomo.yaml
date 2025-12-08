@@ -1,0 +1,50 @@
+# Matomo Helm Values
+# Chart: https://github.com/bitnami/charts/tree/main/bitnami/matomo
+# Using existing MariaDB instance
+
+fullnameOverride: matomo
+
+mariadb:
+  enabled: false
+
+# External database configuration (existing MariaDB)
+externalDatabase:
+  host: mariadb-primary.mariadb.svc.cluster.local
+  port: 3306
+  user: bluemayne
+  existingSecret: mariadb-password
+  existingSecretPasswordKey: mariadb-password
+  database: MatomoDB
+
+# Matomo admin credentials
+auth:
+  username: bluemayne
+  existingSecret: matomo-admin-password
+  existingSecretPasswordKey: admin-password
+
+# Persistence
+persistence:
+  enabled: true
+  size: 10Gi
+  storageClass: local-path
+
+# Resources
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "250m"
+  limits:
+    memory: "1Gi"
+    cpu: "1000m"
+
+# Service
+service:
+  type: ClusterIP
+  port: 80
+
+# Ingress (optional, configure as needed)
+ingress:
+  enabled: false
+  # hostname: matomo.example.com
+  # annotations:
+  #   cert-manager.io/cluster-issuer: letsencrypt-prod
