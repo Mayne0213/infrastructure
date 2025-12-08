@@ -5,11 +5,15 @@ image:
 
 umami:
   # Database configuration
-  databaseUrl: postgresql://bluemayne:Po87345364@@postgresql-primary.postgresql.svc.cluster.local:5432/umami
+  databaseUrl: postgresql://bluemayne:Po87345364@postgresql-primary.postgresql.svc.cluster.local:5432/umami
   databaseType: postgresql
   
   # App hash salt (for security)
   appSecret: "Po87345364@UmamiSecret2024"
+
+# Disable PostgreSQL subchart (using external PostgreSQL)
+postgresql:
+  enabled: false
 
 ingress:
   enabled: false  # Will use our main ingress
