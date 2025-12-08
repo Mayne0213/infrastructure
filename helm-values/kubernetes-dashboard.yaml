@@ -29,21 +29,9 @@ resources:
 extraArgs:
   - --auto-generate-certificates
   - --namespace=kubernetes-dashboard
-  - --authentication-mode=basic
   - --system-banner="Kubernetes Dashboard - Production Environment"
-
-# Environment variables for basic authentication
-extraEnv:
-  - name: DASHBOARD_USERNAME
-    valueFrom:
-      secretKeyRef:
-        name: admin-user
-        key: username
-  - name: DASHBOARD_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: admin-user
-        key: password
+  # Note: Basic auth is not supported in Dashboard 7.13.0+
+  # Use Bearer Token authentication instead
 
 # Protocol HTTP for Ingress compatibility
 protocolHttp: true
@@ -60,7 +48,9 @@ serviceAccount:
 # RBAC configuration
 rbac:
   create: true
-  clusterAdminRole: false
+  # Grant cluster-admin role to dashboard service account for full access
+  # For production, create custom ClusterRole with minimal required permissions
+  clusterAdminRole: true
 
 # Settings
 settings:
