@@ -1,0 +1,53 @@
+# Kubernetes Dashboard Helm Values
+# Chart: https://github.com/kubernetes/dashboard/tree/master/charts/helm-chart/kubernetes-dashboard
+
+fullnameOverride: kubernetes-dashboard
+
+# Metrics scraper is enabled by default
+metricsScraper:
+  enabled: true
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 9090
+
+# Resource limits
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    memory: 256Mi
+
+# Security settings
+extraArgs:
+  - --enable-skip-login
+  - --disable-settings-authorizer
+  - --enable-insecure-login
+  - --system-banner="Kubernetes Dashboard - Production Environment"
+
+# Protocol HTTP for Ingress compatibility
+protocolHttp: true
+
+# Ingress will be configured separately
+ingress:
+  enabled: false
+
+# ServiceAccount configuration
+serviceAccount:
+  create: true
+  name: kubernetes-dashboard
+
+# RBAC configuration
+rbac:
+  create: true
+  clusterAdminRole: false
+
+# Settings
+settings:
+  clusterName: "mayne-k3s-cluster"
+  itemsPerPage: 10
+  defaultNamespace: "default"
+  namespaceFallbackList: ["default", "kube-system"]
