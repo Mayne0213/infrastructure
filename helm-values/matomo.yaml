@@ -4,8 +4,10 @@
 
 fullnameOverride: matomo
 
-# Use latest tag (ARM64 compatible)
+# Use bitnamilegacy repository (Bitnami moved images here)
 image:
+  registry: docker.io
+  repository: bitnamilegacy/matomo
   tag: latest
 
 mariadb:
