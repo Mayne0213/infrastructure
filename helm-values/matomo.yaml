@@ -19,7 +19,6 @@ externalDatabase:
   port: 3306
   user: bluemayne
   existingSecret: mariadb-password
-  existingSecretPasswordKey: mariadb-password
   database: MatomoDB
 
 # Matomo admin credentials
