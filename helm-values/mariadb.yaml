@@ -24,8 +24,8 @@ auth:
 primary:
   persistence:
     enabled: true
-    size: 30Gi
-    storageClass: mariadb-local
+    size: 20Gi
+    storageClass: local-path
   
   configuration: |-
     [mysqld]
@@ -67,7 +67,7 @@ secondary:
   replicaCount: 2
   persistence:
     enabled: true
-    size: 30Gi
+    size: 20Gi
     storageClass: local-path
   
   resources:

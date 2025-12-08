@@ -23,7 +23,7 @@ primary:
   persistence:
     enabled: true
     size: 10Gi
-    storageClass: mariadb-dev-local
+    storageClass: local-path
   
   resources:
     requests:
