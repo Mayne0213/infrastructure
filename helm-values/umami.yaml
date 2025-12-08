@@ -1,0 +1,56 @@
+fullnameOverride: umami
+
+image:
+  tag: postgresql-latest
+
+umami:
+  # Database configuration
+  databaseUrl: postgresql://bluemayne:Po87345364@@postgresql-primary.postgresql.svc.cluster.local:5432/umami
+  databaseType: postgresql
+  
+  # App hash salt (for security)
+  appSecret: "Po87345364@UmamiSecret2024"
+
+ingress:
+  enabled: false  # Will use our main ingress
+
+service:
+  type: ClusterIP
+  port: 3000
+
+persistence:
+  enabled: false  # Using external PostgreSQL
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+replicaCount: 2
+
+# Autoscaling
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80
+
+# Health checks
+livenessProbe:
+  enabled: true
+  httpGet:
+    path: /api/heartbeat
+    port: 3000
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  enabled: true
+  httpGet:
+    path: /api/heartbeat
+    port: 3000
+  initialDelaySeconds: 10
+  periodSeconds: 5

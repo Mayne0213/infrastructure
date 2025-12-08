@@ -31,6 +31,7 @@ resources:
   - argocd/applications/postgres-exporter-read-1.yaml
   
   - argocd/applications/minio.yaml
+  - argocd/applications/umami.yaml
   - argocd/applications/sealed-secrets.yaml
   - argocd/applications/prometheus.yaml
   - argocd/applications/alertmanager.yaml

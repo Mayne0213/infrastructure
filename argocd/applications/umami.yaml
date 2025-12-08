@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: umami
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  
+  source:
+    repoURL: https://charts.christianhuth.de
+    chart: umami
+    targetRevision: 1.0.0
+    helm:
+      valueFiles:
+        - $values/infrastructure/helm-values/umami.yaml
+  
+  sources:
+    - repoURL: https://charts.christianhuth.de
+      chart: umami
+      targetRevision: 1.0.0
+      helm:
+        valueFiles:
+          - $values/infrastructure/helm-values/umami.yaml
+    - repoURL: https://github.com/Mayne0213/infrastructure.git
+      targetRevision: main
+      ref: values
+  
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: analytics
+  
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
