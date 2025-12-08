@@ -472,7 +472,6 @@ metadata:
   name: kubernetes-dashboard-ingress
   namespace: kubernetes-dashboard
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
     # HTTP를 HTTPS로 자동 리다이렉트
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     # cert-manager가 인증서를 자동으로 발급하도록 설정

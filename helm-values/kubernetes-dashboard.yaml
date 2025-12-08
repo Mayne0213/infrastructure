@@ -30,8 +30,6 @@ extraArgs:
   - --auto-generate-certificates
   - --namespace=kubernetes-dashboard
   - --system-banner="Kubernetes Dashboard - Production Environment"
-  # Note: Basic auth is not supported in Dashboard 7.13.0+
-  # Use Bearer Token authentication instead
 
 # Protocol HTTP for Ingress compatibility
 protocolHttp: true
