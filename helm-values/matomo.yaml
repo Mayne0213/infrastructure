@@ -42,6 +42,21 @@ resources:
     memory: "1Gi"
     cpu: "1000m"
 
+# Readiness and Liveness probes
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 5
+
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 600
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 5
+
 # Service
 service:
   type: ClusterIP
