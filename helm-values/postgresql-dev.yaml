@@ -31,4 +31,6 @@ resources:
     cpu: "500m"
 
 metrics:
-  enabled: false
+  enabled: true
+  serviceMonitor:
+    enabled: false

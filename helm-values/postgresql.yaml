@@ -68,8 +68,7 @@ readReplicas:
 metrics:
   enabled: true
   serviceMonitor:
-    enabled: true
-    namespace: monitoring
+    enabled: false
   resources:
     requests:
       memory: "64Mi"
