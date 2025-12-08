@@ -3,6 +3,10 @@
 
 fullnameOverride: kubernetes-dashboard
 
+# Disable Kong proxy
+kong:
+  enabled: false
+
 # Metrics scraper is enabled by default
 metricsScraper:
   enabled: true
