@@ -1,0 +1,29 @@
+# Prometheus Postgres Exporter Helm Values for postgresql-read-1
+# Chart: https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-postgres-exporter
+
+fullnameOverride: postgres-exporter-read-1
+
+config:
+  datasource:
+    host: postgresql-read-1.postgresql-headless.postgresql.svc.cluster.local
+    port: 5432
+    user: bluemayne
+    passwordSecret:
+      name: postgresql-password
+      key: password
+    database: postgres
+    sslmode: disable
+
+serviceMonitor:
+  enabled: true
+  namespace: monitoring
+  additionalLabels:
+    instance: postgres-exporter-read-1
+
+resources:
+  requests:
+    memory: 64Mi
+    cpu: 50m
+  limits:
+    memory: 128Mi
+    cpu: 200m

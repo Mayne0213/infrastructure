@@ -1,0 +1,61 @@
+# PgBouncer Helm Values
+# Chart: https://github.com/bitnami/charts/tree/main/bitnami/pgbouncer
+# Connection pooler for PostgreSQL
+
+fullnameOverride: pgbouncer
+
+# PostgreSQL connection settings
+postgresql:
+  host: postgresql-primary.postgresql.svc.cluster.local
+  port: 5432
+  database: postgres
+  username: bluemayne
+  # Password from existing secret
+  existingSecret: postgresql-password
+  existingSecretPasswordKey: password
+
+# Authentication
+auth:
+  username: bluemayne
+  existingSecret: postgresql-password
+  existingSecretPasswordKey: password
+
+# PgBouncer configuration
+pgbouncer:
+  poolMode: transaction
+  maxClientConn: 1000
+  defaultPoolSize: 25
+  reservePoolSize: 5
+  reservePoolTimeout: 3
+  serverLifetime: 1200
+  serverIdleTimeout: 60
+  logConnections: true
+  logDisconnections: true
+
+# High availability
+replicaCount: 2
+
+# Resources
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "100m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+# Probes
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 5
+  periodSeconds: 5
+
+# Service
+service:
+  type: ClusterIP
+  port: 5432

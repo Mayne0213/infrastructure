@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: matomo
+  name: postgresql-dev
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -9,21 +9,19 @@ spec:
   project: default
 
   sources:
-    # Helm chart from Bitnami repository
     - repoURL: https://charts.bitnami.com/bitnami
-      chart: matomo
-      targetRevision: 7.0.0
+      chart: postgresql
+      targetRevision: 16.2.1
       helm:
         valueFiles:
-          - $values/helm-values/matomo.yaml
-    # Values file from Git repository
+          - $values/helm-values/postgresql-dev.yaml
     - repoURL: https://github.com/Mayne0213/infrastructure.git
       targetRevision: main
       ref: values
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: analytics
+    namespace: postgresql-dev
 
   syncPolicy:
     automated:

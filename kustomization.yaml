@@ -21,8 +21,22 @@ resources:
   - argocd/applications/cert-manager.yaml
   - argocd/applications/cert-manager-issuers.yaml
   - argocd/applications/ingress-nginx.yaml
+  
+  # PostgreSQL
+  - argocd/applications/postgresql.yaml
+  - argocd/applications/postgresql-dev.yaml
+  - argocd/applications/pgbouncer.yaml
+  - argocd/applications/postgres-exporter.yaml
+  - argocd/applications/postgres-exporter-read-0.yaml
+  - argocd/applications/postgres-exporter-read-1.yaml
+  
+  # MariaDB (TODO: Remove after migration)
   - argocd/applications/mariadb.yaml
   - argocd/applications/mariadb-dev.yaml
+  - argocd/applications/mysql-exporter.yaml
+  - argocd/applications/mysql-exporter-secondary-0.yaml
+  - argocd/applications/mysql-exporter-secondary-1.yaml
+  
   - argocd/applications/minio.yaml
   - argocd/applications/sealed-secrets.yaml
   - argocd/applications/prometheus.yaml
@@ -30,27 +44,28 @@ resources:
   - argocd/applications/grafana.yaml
   - argocd/applications/kube-state-metrics.yaml
   - argocd/applications/node-exporter.yaml
-  - argocd/applications/mysql-exporter.yaml
-  - argocd/applications/mysql-exporter-secondary-0.yaml
-  - argocd/applications/mysql-exporter-secondary-1.yaml
   - argocd/applications/kubernetes-dashboard.yaml
-  - argocd/applications/matomo.yaml
   
   # Other resources (Ingress rules for all services)
   - ingress/ingress.yaml
   
   # Sealed Secrets
   - sealed-secrets/monitoring/grafana-admin-password.yaml
+  
+  # PostgreSQL Secrets
+  - sealed-secrets/postgresql/root/postgresql-password.yaml
+  - sealed-secrets/postgresql/root/postgresql-password-dev.yaml
+  
+  # MariaDB Secrets (TODO: Remove after migration)
   - sealed-secrets/monitoring/mysql-exporter-password.yaml
   - sealed-secrets/mariadb/root/mariadb-root-password.yaml
   - sealed-secrets/mariadb/root/mariadb-password.yaml
   - sealed-secrets/mariadb/root/mariadb-root-password-dev.yaml
   - sealed-secrets/mariadb/root/mariadb-password-dev.yaml
   - sealed-secrets/mariadb/replica/mariadb-replication-password.yaml
-  - sealed-secrets/minio/minio-root-password.yaml
   - sealed-secrets/proxysql/proxysql-admin-password.yaml
   - sealed-secrets/proxysql/proxysql-monitor-password.yaml
   - sealed-secrets/proxysql/proxysql-config.yaml
+  
+  - sealed-secrets/minio/minio-root-password.yaml
   - sealed-secrets/kubernetes-dashboard/admin-user.yaml
-  - sealed-secrets/matomo/mariadb-password.yaml
-  - sealed-secrets/matomo/matomo-admin-password.yaml
