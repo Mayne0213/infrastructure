@@ -5,7 +5,7 @@ fullnameOverride: kubernetes-dashboard
 
 # Disable Kong proxy
 kong:
-  enabled: false
+  enabled: true
 
 # Metrics scraper is enabled by default
 metricsScraper:
@@ -48,8 +48,7 @@ serviceAccount:
 # RBAC configuration
 rbac:
   create: true
-  # Grant cluster-admin role to dashboard service account for full access
-  # For production, create custom ClusterRole with minimal required permissions
+  # Not working... make sure to Fix this
   clusterAdminRole: true
 
 # Settings
