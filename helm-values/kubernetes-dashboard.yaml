@@ -23,10 +23,23 @@ resources:
 
 # Security settings
 extraArgs:
-  - --enable-skip-login
-  - --disable-settings-authorizer
-  - --enable-insecure-login
+  - --auto-generate-certificates
+  - --namespace=kubernetes-dashboard
+  - --authentication-mode=basic
   - --system-banner="Kubernetes Dashboard - Production Environment"
+
+# Environment variables for basic authentication
+extraEnv:
+  - name: DASHBOARD_USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: admin-user
+        key: username
+  - name: DASHBOARD_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: admin-user
+        key: password
 
 # Protocol HTTP for Ingress compatibility
 protocolHttp: true
