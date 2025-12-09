@@ -52,4 +52,3 @@ resources:
   
   
   - sealed-secrets/minio/minio-root-password.yaml
-  - sealed-secrets/kubernetes-dashboard/admin-user.yaml
