@@ -9,9 +9,9 @@ spec:
   project: default
 
   sources:
-    - repoURL: https://charts.bitnami.com/bitnami
+    - repoURL: https://one-acre-fund.github.io/oaf-public-charts
       chart: pgbouncer
-      # Use latest available version (Bitnami no longer maintains this chart)
+      targetRevision: 0.1.8
       helm:
         valueFiles:
           - $values/helm-values/pgbouncer.yaml
