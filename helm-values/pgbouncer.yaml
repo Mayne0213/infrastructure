@@ -9,7 +9,7 @@ postgresql:
   host: postgresql-primary.postgresql.svc.cluster.local
   port: 5432
   database: postgres
-  username: bluemayne
+  user: bluemayne
   # Password from existing secret
   existingSecret: postgresql-password
   existingSecretPasswordKey: password
@@ -31,6 +31,10 @@ pgbouncer:
   serverIdleTimeout: 60
   logConnections: true
   logDisconnections: true
+
+# TLS disabled (no TLS secret required)
+tls:
+  enabled: false
 
 # High availability
 replicaCount: 2
