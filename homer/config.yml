@@ -15,6 +15,9 @@ stylesheet: "/assets/custom.css" # path to custom CSS (homer-theme)
 # Optional theme
 theme: "default" # 'default' or one of the themes available in 'src/assets/themes'
 
+# Optional columns
+columns: "3" # You can change this to any number that is a factor of 12: (1, 2, 3, 4, 6, 12)
+
 # Optional colors
 colors:
   light:
@@ -22,7 +25,7 @@ colors:
     highlight-secondary: "#4285f4"
     highlight-hover: "#5a95f5"
     background: "#f5f5f5"
-    background-image: "assets/wallpaper-light.jpeg"
+    background-image: "../assets/wallpaper-light.jpeg"
     card-background: "#ffffff"
     text: "#363636"
     text-header: "#ffffff"
@@ -36,7 +39,7 @@ colors:
     highlight-secondary: "#4285f4"
     highlight-hover: "#5a95f5"
     background: "#131313"
-    background-image: "assets/wallpaper.jpeg"
+    background-image: "../assets/wallpaper.jpeg"
     card-background: "#2d2d2d"
     text: "#eaeaea"
     text-header: "#ffffff"
@@ -61,6 +64,7 @@ services:
         logo: "https://joossameng.kro.kr/favicon.ico"
         subtitle: "OMR Grading API"
         tag: "production"
+        tagstyle: "is-success"
         keywords: "omr api"
         url: "https://joossameng.kro.kr"
         target: "_blank"
@@ -68,6 +72,7 @@ services:
         logo: "https://jaejadle.kro.kr/favicon.ico"
         subtitle: "Church Website"
         tag: "production"
+        tagstyle: "is-success"
         keywords: "church"
         url: "https://jaejadle.kro.kr"
         target: "_blank"
@@ -75,6 +80,7 @@ services:
         logo: "https://minjo0213.kro.kr/favicon.ico"
         subtitle: "Portfolio Site"
         tag: "production"
+        tagstyle: "is-success"
         keywords: "portfolio"
         url: "https://minjo0213.kro.kr"
         target: "_blank"
@@ -82,6 +88,7 @@ services:
         logo: "https://todo0213.kro.kr/favicon.ico"
         subtitle: "Todo Management App"
         tag: "production"
+        tagstyle: "is-success"
         keywords: "todo"
         url: "https://todo0213.kro.kr"
         target: "_blank"
@@ -89,6 +96,7 @@ services:
         logo: "https://jovies.kro.kr/favicon.ico"
         subtitle: "Movie Service"
         tag: "production"
+        tagstyle: "is-success"
         keywords: "movie"
         url: "https://jovies.kro.kr"
         target: "_blank"
@@ -101,6 +109,7 @@ services:
         logo: "https://dev.joossameng.kro.kr/favicon.ico"
         subtitle: "Joossam Development Environment"
         tag: "dev"
+        tagstyle: "is-warning"
         keywords: "dev"
         url: "https://dev.joossameng.kro.kr"
         target: "_blank"
@@ -108,6 +117,7 @@ services:
         logo: "https://dev.jaejadle.kro.kr/favicon.ico"
         subtitle: "Jaejadle Development Environment"
         tag: "dev"
+        tagstyle: "is-warning"
         keywords: "dev"
         url: "https://dev.jaejadle.kro.kr"
         target: "_blank"
@@ -115,6 +125,7 @@ services:
         logo: "https://dev.minjo0213.kro.kr/favicon.ico"
         subtitle: "Portfolio Development Environment"
         tag: "dev"
+        tagstyle: "is-warning"
         keywords: "dev"
         url: "https://dev.minjo0213.kro.kr"
         target: "_blank"
@@ -122,6 +133,7 @@ services:
         logo: "https://dev.todo0213.kro.kr/favicon.ico"
         subtitle: "Todo Development Environment"
         tag: "dev"
+        tagstyle: "is-warning"
         keywords: "dev"
         url: "https://dev.todo0213.kro.kr"
         target: "_blank"
@@ -129,6 +141,7 @@ services:
         logo: "https://dev.jovies.kro.kr/favicon.ico"
         subtitle: "Jovies Development Environment"
         tag: "dev"
+        tagstyle: "is-warning"
         keywords: "dev"
         url: "https://dev.jovies.kro.kr"
         target: "_blank"
