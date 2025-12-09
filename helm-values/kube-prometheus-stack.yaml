@@ -40,11 +40,13 @@ prometheus:
       limits:
         memory: 1Gi
     
-    # ServiceMonitor 자동 발견
+    # ServiceMonitor 자동 발견 - 모든 ServiceMonitor 선택
     serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
     podMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelector: {}
     probeSelectorNilUsesHelmValues: false
-    ruleSelectorNilUsesHelmValues: false
+    ruleSelector: {}
     
     # Alertmanager 설정
     alertingEndpoints:
