@@ -564,10 +564,17 @@ metadata:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    # ArgoCD는 내부적으로 HTTPS를 사용
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    # gRPC 지원을 위한 설정
-    nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+    # ArgoCD는 내부적으로 HTTP를 사용 (Ingress가 TLS terminate)
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    # WebSocket 지원 (ArgoCD UI에 필요)
+    nginx.ingress.kubernetes.io/websocket-services: "argocd-server"
+    # gRPC 지원
+    nginx.ingress.kubernetes.io/grpc-backend: "true"
+    # 프록시 버퍼 설정
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
 spec:
   ingressClassName: nginx
   tls:
@@ -584,5 +591,5 @@ spec:
           service:
             name: argocd-server
             port:
-              number: 443
+              number: 80
 
