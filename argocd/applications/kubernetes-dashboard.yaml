@@ -34,6 +34,19 @@ spec:
       name: kubernetes-dashboard-csrf
       jsonPointers:
         - /data
+    # Ignore checksum annotation in Deployment pod template
+    # This annotation changes every time the secret is regenerated,
+    # causing unnecessary ReplicaSet creation
+    - group: apps
+      kind: Deployment
+      name: kubernetes-dashboard-api
+      jsonPointers:
+        - /spec/template/metadata/annotations/checksum~1config
+    - group: apps
+      kind: Deployment
+      name: kubernetes-dashboard-auth
+      jsonPointers:
+        - /spec/template/metadata/annotations/checksum~1config
 
   syncPolicy:
     automated:
