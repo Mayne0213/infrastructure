@@ -44,6 +44,7 @@ resources:
   
   # Sealed Secrets
   - sealed-secrets/monitoring/grafana-admin-password.yaml
+  - sealed-secrets/monitoring/postgresql-password.yaml
   
   # PostgreSQL Secrets
   - sealed-secrets/postgresql/root/postgresql-password.yaml
