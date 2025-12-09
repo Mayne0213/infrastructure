@@ -22,6 +22,16 @@ spec:
         app: homer
     spec:
       initContainers:
+      - name: copy-homer-files
+        image: b4bz/homer:latest
+        command: ['sh', '-c']
+        args:
+          - |
+            # Homer의 기본 파일들을 emptyDir로 복사
+            cp -r /www/* /tmp/www/
+        volumeMounts:
+        - name: www
+          mountPath: /tmp/www
       - name: copy-assets
         image: alpine/git:latest
         command: ['sh', '-c']
@@ -29,7 +39,8 @@ spec:
           - |
             # Git에서 assets 복사
             git clone --depth 1 --branch main https://github.com/Mayne0213/infrastructure.git /tmp/repo
-            # assets 폴더 복사
+            # assets 폴더 덮어쓰기
+            rm -rf /www/assets
             cp -r /tmp/repo/homer/assets /www/assets
             # config.yml 복사
             cp /config/config.yml /www/assets/config.yml
