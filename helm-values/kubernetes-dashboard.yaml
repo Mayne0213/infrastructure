@@ -7,6 +7,11 @@ fullnameOverride: kubernetes-dashboard
 kong:
   enabled: true
 
+# API component configuration
+api:
+  scaling:
+    replicas: 1
+
 # Metrics scraper is enabled by default
 metricsScraper:
   enabled: true
