@@ -18,38 +18,35 @@ spec:
       - name: create-db
         image: postgres:16-alpine
         env:
-        - name: PGHOST
-          value: postgresql-primary.postgresql.svc.cluster.local
-        - name: PGPORT
-          value: "5432"
-        - name: PGUSER
+        - name: DATABASE_URL
           valueFrom:
             secretKeyRef:
               name: umami-password
-              key: database-user
-        - name: PGPASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: umami-password
-              key: database-password
-        - name: PGDATABASE
-          value: postgres
+              key: database-url
         command:
         - /bin/sh
         - -c
         - |
+          echo "Parsing DATABASE_URL..."
+
+          # Parse DATABASE_URL: postgresql://user:pass@host:port/dbname
+          # Extract username from DATABASE_URL
+          DB_USER=$(echo $DATABASE_URL | sed -n 's|.*://\([^:]*\):.*|\1|p')
+
           echo "Checking if umami database exists..."
 
-          if psql -lqt | cut -d \| -f 1 | grep -qw umami; then
+          if psql $DATABASE_URL -lqt | cut -d \| -f 1 | grep -qw umami; then
             echo "Database 'umami' already exists. Skipping creation."
           else
             echo "Creating database 'umami'..."
-            createdb umami
+            # Connect to postgres database to create umami
+            POSTGRES_URL=$(echo $DATABASE_URL | sed 's|/umami$|/postgres|')
+            psql $POSTGRES_URL -c "CREATE DATABASE umami;"
             echo "Database 'umami' created successfully."
           fi
 
-          echo "Granting privileges to bluemayne user..."
-          psql -d umami -c "GRANT ALL PRIVILEGES ON DATABASE umami TO bluemayne;"
-          psql -d umami -c "GRANT ALL PRIVILEGES ON SCHEMA public TO bluemayne;"
+          echo "Granting privileges to $DB_USER user..."
+          psql $DATABASE_URL -c "GRANT ALL PRIVILEGES ON DATABASE umami TO $DB_USER;"
+          psql $DATABASE_URL -c "GRANT ALL PRIVILEGES ON SCHEMA public TO $DB_USER;"
 
           echo "Database initialization completed."
