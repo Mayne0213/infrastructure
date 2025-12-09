@@ -38,7 +38,7 @@ resources:
   - argocd/applications/kube-state-metrics.yaml
   - argocd/applications/node-exporter.yaml
   - argocd/applications/kubernetes-dashboard.yaml
-  - argocd/applications/ingress-dashboard.yaml
+  - argocd/applications/homer.yaml
   
   # Other resources (Ingress rules for all services)
   - ingress/ingress.yaml

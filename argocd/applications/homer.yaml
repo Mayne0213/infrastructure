@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ingress-dashboard
+  name: homer
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -11,11 +11,11 @@ spec:
   sources:
     - repoURL: https://github.com/Mayne0213/infrastructure.git
       targetRevision: main
-      path: ingress-dashboard
+      path: homer
   
   destination:
     server: https://kubernetes.default.svc
-    namespace: ingress-dashboard
+    namespace: homer
   
   syncPolicy:
     automated:
