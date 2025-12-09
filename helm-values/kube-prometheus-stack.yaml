@@ -1,0 +1,163 @@
+# Kube-Prometheus-Stack Helm Values
+# Chart: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
+# Includes: Prometheus Operator, Prometheus, Alertmanager, Grafana, and various exporters
+
+# Global settings
+fullnameOverride: ""
+
+# Prometheus Operator
+prometheusOperator:
+  enabled: true
+  
+# Prometheus
+prometheus:
+  enabled: true
+  
+  prometheusSpec:
+    scrapeInterval: 30s
+    evaluationInterval: 30s
+    retention: 7d
+    
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: local-path
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 5Gi
+    
+    resources:
+      requests:
+        cpu: 50m
+        memory: 256Mi
+      limits:
+        memory: 1Gi
+    
+    # ServiceMonitor 자동 발견
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+    
+    # Alertmanager 설정
+    alertingEndpoints:
+      - name: alertmanager
+        namespace: monitoring
+        port: http-web
+        scheme: http
+
+# Alertmanager (기존 alertmanager 사용)
+alertmanager:
+  enabled: false
+
+# Grafana (기존 grafana 사용)
+grafana:
+  enabled: false
+
+# Node Exporter (기존 node-exporter 사용)
+prometheus-node-exporter:
+  enabled: false
+  
+# Kube State Metrics (기존 kube-state-metrics 사용)
+kube-state-metrics:
+  enabled: false
+
+# 기본 ServiceMonitors
+defaultRules:
+  create: true
+  rules:
+    alertmanager: true
+    etcd: false
+    configReloaders: true
+    general: true
+    k8s: true
+    kubeApiserverAvailability: true
+    kubeApiserverBurnrate: true
+    kubeApiserverHistogram: true
+    kubeApiserverSlos: true
+    kubeControllerManager: false
+    kubelet: true
+    kubeProxy: false
+    kubePrometheusGeneral: true
+    kubePrometheusNodeRecording: true
+    kubernetesApps: true
+    kubernetesResources: true
+    kubernetesStorage: true
+    kubernetesSystem: true
+    kubeSchedulerAlerting: false
+    kubeSchedulerRecording: false
+    kubeStateMetrics: true
+    network: true
+    node: true
+    nodeExporterAlerting: true
+    nodeExporterRecording: true
+    prometheus: true
+    prometheusOperator: true
+
+# Additional scrape configs for existing services
+prometheus:
+  prometheusSpec:
+    additionalScrapeConfigs:
+      # ArgoCD metrics
+      - job_name: 'argocd-metrics'
+        static_configs:
+          - targets:
+            - 'argocd-metrics.argocd.svc.cluster.local:8082'
+            labels:
+              service: argocd-controller
+          - targets:
+            - 'argocd-server-metrics.argocd.svc.cluster.local:8083'
+            labels:
+              service: argocd-server
+          - targets:
+            - 'argocd-repo-server.argocd.svc.cluster.local:8084'
+            labels:
+              service: argocd-repo
+      
+      # Cert-Manager
+      - job_name: 'cert-manager'
+        static_configs:
+          - targets:
+            - 'cert-manager.cert-manager.svc.cluster.local:9402'
+      
+      # MinIO
+      - job_name: 'minio-cluster'
+        static_configs:
+          - targets:
+            - 'minio.minio.svc.cluster.local:9000'
+        metrics_path: /minio/v2/metrics/cluster
+        scheme: http
+      
+      - job_name: 'minio-node'
+        static_configs:
+          - targets:
+            - 'minio.minio.svc.cluster.local:9000'
+        metrics_path: /minio/v2/metrics/node
+        scheme: http
+      
+      # Ingress NGINX
+      - job_name: 'ingress-nginx'
+        kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+              names:
+                - ingress-nginx
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
+            action: keep
+            regex: ingress-nginx
+          - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_component]
+            action: keep
+            regex: controller
+          - source_labels: [__address__]
+            action: replace
+            regex: ([^:]+)(?::\d+)?
+            replacement: $1:10254
+            target_label: __address__
+          - source_labels: [__meta_kubernetes_pod_name]
+            action: replace
+            target_label: pod
+          - source_labels: [__meta_kubernetes_namespace]
+            action: replace
+            target_label: namespace

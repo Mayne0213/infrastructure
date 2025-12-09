@@ -16,7 +16,7 @@ config:
     sslmode: disable
 
 serviceMonitor:
-  enabled: false
+  enabled: true
   namespace: monitoring
 
 resources:

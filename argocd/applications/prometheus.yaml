@@ -11,11 +11,11 @@ spec:
   sources:
     # Helm chart from external repository
     - repoURL: https://prometheus-community.github.io/helm-charts
-      chart: prometheus
-      targetRevision: 27.50.0
+      chart: kube-prometheus-stack
+      targetRevision: 80.0.0
       helm:
         valueFiles:
-          - $values/helm-values/prometheus.yaml
+          - $values/helm-values/kube-prometheus-stack.yaml
     # Values file from Git repository
     - repoURL: https://github.com/Mayne0213/infrastructure.git
       targetRevision: main
