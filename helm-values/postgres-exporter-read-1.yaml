@@ -15,7 +15,7 @@ config:
     sslmode: disable
 
 serviceMonitor:
-  enabled: true
+  enabled: false
   namespace: monitoring
   additionalLabels:
     instance: postgres-exporter-read-1
