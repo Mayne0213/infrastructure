@@ -25,7 +25,6 @@ resources:
   # PostgreSQL
   - argocd/applications/postgresql.yaml
   - argocd/applications/postgresql-dev.yaml
-  - argocd/applications/pgbouncer.yaml
   - argocd/applications/postgres-exporter.yaml
   - argocd/applications/postgres-exporter-read-0.yaml
   - argocd/applications/postgres-exporter-read-1.yaml
