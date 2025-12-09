@@ -5,7 +5,7 @@ fullnameOverride: postgres-exporter-read-0
 
 config:
   datasource:
-    host: postgresql-read-0.postgresql-headless.postgresql.svc.cluster.local
+    host: postgresql-read-0.postgresql-read-hl.postgresql.svc.cluster.local
     port: "5432"
     user: bluemayne
     passwordSecret:

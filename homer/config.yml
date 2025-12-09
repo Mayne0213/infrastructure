@@ -89,6 +89,13 @@ services:
         keywords: "영화 movie"
         url: "https://jovies.kro.kr"
         target: "_blank"
+      - name: "Dashboard"
+        logo: "/assets/favicon.ico"
+        subtitle: "Dashboard"
+        tag: "production"
+        keywords: "dashboard"
+        url: "https://dashboard0213.kro.kr"
+        target: "_blank"
 
   
   - name: "개발 환경"
