@@ -56,11 +56,11 @@ grafana:
   enabled: false
 
 # Node Exporter (기존 node-exporter 사용)
-prometheus-node-exporter:
+nodeExporter:
   enabled: false
   
 # Kube State Metrics (기존 kube-state-metrics 사용)
-kube-state-metrics:
+kubeStateMetrics:
   enabled: false
 
 # 기본 ServiceMonitors
