@@ -108,17 +108,30 @@ body #bighead .navbar a:focus, body #bighead .navbar a:hover {
    color: var(--link-hover);
 }
 
-/* Blur card backgrounds */
+/* Blur card backgrounds - Light mode */
 .card {
-    background-color: rgba(255, 255, 255, 0.7) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background-color: rgba(248, 247, 245, 0.85) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Dark theme card background */
 [data-theme="dark"] .card,
 .dark .card {
-    background-color: rgba(45, 45, 45, 0.7) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background-color: rgba(24, 28, 58, 0.75) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Group title styling */
+.group-title {
+    color: var(--text-header) !important;
+}
+
+/* Card hover effect */
+.card:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
 }
