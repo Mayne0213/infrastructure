@@ -59,11 +59,11 @@ spec:
   # TLS 설정
   tls:
   - hosts:
-    - mayne.kro.kr
-    - www.mayne.kro.kr
+    - minjo0213.kro.kr
+    - www.minjo0213.kro.kr
     secretName: portfolio-tls
   rules:
-    - host: mayne.kro.kr
+    - host: minjo0213.kro.kr
       http:
         paths:
           - path: /
@@ -73,7 +73,7 @@ spec:
                 name: portfolio-service
                 port:
                   number: 80
-    - host: www.mayne.kro.kr
+    - host: www.minjo0213.kro.kr
       http:
         paths:
           - path: /
@@ -361,10 +361,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - dev.mayne.kro.kr
+    - dev.minjo0213.kro.kr
     secretName: portfolio-dev-tls
   rules:
-    - host: dev.mayne.kro.kr
+    - host: dev.minjo0213.kro.kr
       http:
         paths:
           - path: /
@@ -590,4 +590,50 @@ spec:
             name: argocd-server
             port:
               number: 443
+
+---
+# Ingress Dashboard UI Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-dashboard-ingress
+  namespace: ingress-dashboard
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    # HTTP를 HTTPS로 자동 리다이렉트
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # cert-manager가 인증서를 자동으로 발급하도록 설정
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # 대시보드에 표시될 정보
+    ingress-dashboard/title: "Ingress Dashboard"
+    ingress-dashboard/description: "Kubernetes Ingress 리소스 관리 대시보드"
+spec:
+  ingressClassName: nginx
+  # TLS 설정
+  tls:
+  - hosts:
+    - mayne.kro.kr
+    - www.mayne.kro.kr
+    secretName: ingress-dashboard-tls
+  rules:
+    - host: mayne.kro.kr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: dashboard
+                port:
+                  number: 8080
+    - host: www.mayne.kro.kr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: dashboard
+                port:
+                  number: 8080
 
