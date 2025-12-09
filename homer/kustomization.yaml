@@ -10,6 +10,7 @@ configMapGenerator:
     namespace: homer
     files:
       - config.yml
+      - assets/favicon.ico
       - assets/kubernetes.svg
       - assets/argocd.svg
       - assets/grafana.svg
