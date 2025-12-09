@@ -451,9 +451,20 @@ spec:
   tls:
   - hosts:
     - minio.minio0213.kro.kr
+    - minio0213.kro.kr
     secretName: minio-console-tls
   rules:
   - host: minio.minio0213.kro.kr
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: minio-service
+            port:
+              number: 9001
+  - host: minio0213.kro.kr
     http:
       paths:
       - path: /
@@ -590,4 +601,3 @@ spec:
             name: argocd-server
             port:
               number: 443
-

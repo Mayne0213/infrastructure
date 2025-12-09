@@ -39,6 +39,12 @@ resources:
   - argocd/applications/node-exporter.yaml
   - argocd/applications/kubernetes-dashboard.yaml
   - argocd/applications/homer.yaml
+  - argocd/applications/loki.yaml
+  - argocd/applications/promtail.yaml
+  
+  # Cert-Manager ClusterIssuers
+  - cert-manager/cluster-issuer-prod.yaml
+  - cert-manager/cluster-issuer-staging.yaml
   
   # Other resources (Ingress rules for all services)
   - ingress/ingress.yaml
@@ -46,10 +52,6 @@ resources:
   # Sealed Secrets
   - sealed-secrets/monitoring/grafana-admin-password.yaml
   - sealed-secrets/monitoring/postgresql-password.yaml
-  
-  # PostgreSQL Secrets
   - sealed-secrets/postgresql/root/postgresql-password.yaml
   - sealed-secrets/postgresql/root/postgresql-password-dev.yaml
-  
-  
   - sealed-secrets/minio/minio-root-password.yaml

@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - homer.yaml
+
+# ConfigMap 생성: config.yml과 assets 폴더의 SVG 파일들을 포함
+configMapGenerator:
+  - name: homer-config
+    namespace: homer
+    files:
+      - config.yml
+      - assets/kubernetes.svg
+      - assets/argocd.svg
+      - assets/grafana.svg
+      - assets/umami.svg
+      - assets/minio.svg
