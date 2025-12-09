@@ -33,6 +33,9 @@ spec:
             cp -r /tmp/repo/homer/assets /www/assets
             # config.yml 복사
             cp /config/config.yml /www/assets/config.yml
+            # lighttpd 사용자(uid=1000)가 읽을 수 있도록 권한 변경
+            chmod -R 755 /www/assets
+            chown -R 1000:65533 /www/assets
         volumeMounts:
         - name: config
           mountPath: /config
