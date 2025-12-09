@@ -566,6 +566,45 @@ spec:
                   number: 3000
 
 ---
+# pgweb Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pgweb-ingress
+  namespace: pgweb
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - pgweb0213.kro.kr
+    - www.pgweb0213.kro.kr
+    secretName: pgweb-tls
+  rules:
+    - host: pgweb0213.kro.kr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pgweb
+                port:
+                  number: 80
+    - host: www.pgweb0213.kro.kr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: pgweb
+                port:
+                  number: 80
+
+---
 # ArgoCD UI Ingress
 apiVersion: networking.k8s.io/v1
 kind: Ingress

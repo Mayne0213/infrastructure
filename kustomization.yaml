@@ -52,6 +52,9 @@ resources:
   # Umami database initialization
   - umami/
 
+  # pgweb PostgreSQL database browser
+  - pgweb/
+
   # Sealed Secrets
   - sealed-secrets/monitoring/grafana-admin-password.yaml
   - sealed-secrets/monitoring/postgresql-password.yaml
