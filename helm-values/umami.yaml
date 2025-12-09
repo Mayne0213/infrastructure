@@ -3,17 +3,24 @@ fullnameOverride: umami
 image:
   tag: postgresql-latest
 
-umami:
-  # Database configuration
-  databaseUrl: postgresql://bluemayne:Po87345364@postgresql-primary.postgresql.svc.cluster.local:5432/umami
-  databaseType: postgresql
-  
-  # App hash salt (for security)
-  appSecret: "Po87345364@UmamiSecret2024"
-
 # Disable PostgreSQL subchart (using external PostgreSQL)
 postgresql:
   enabled: false
+
+# External database configuration
+externalDatabase:
+  type: postgresql
+  hostname: postgresql-primary.postgresql.svc.cluster.local
+  port: 5432
+  auth:
+    database: umami
+    username: bluemayne
+    password: Po87345364
+
+# Environment variables
+env:
+  - name: HASH_SALT
+    value: "Po87345364@UmamiSecret2024"
 
 ingress:
   enabled: false  # Will use our main ingress
@@ -21,9 +28,6 @@ ingress:
 service:
   type: ClusterIP
   port: 3000
-
-persistence:
-  enabled: false  # Using external PostgreSQL
 
 resources:
   requests:

@@ -1,0 +1,49 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: umami-init-db
+  namespace: analytics
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  ttlSecondsAfterFinished: 300
+  template:
+    metadata:
+      name: umami-init-db
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: create-db
+        image: postgres:16-alpine
+        env:
+        - name: PGHOST
+          value: postgresql-primary.postgresql.svc.cluster.local
+        - name: PGPORT
+          value: "5432"
+        - name: PGUSER
+          value: bluemayne
+        - name: PGPASSWORD
+          value: Po87345364
+        - name: PGDATABASE
+          value: postgres
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "Checking if umami database exists..."
+
+          if psql -lqt | cut -d \| -f 1 | grep -qw umami; then
+            echo "Database 'umami' already exists. Skipping creation."
+          else
+            echo "Creating database 'umami'..."
+            createdb umami
+            echo "Database 'umami' created successfully."
+          fi
+
+          echo "Granting privileges to bluemayne user..."
+          psql -d umami -c "GRANT ALL PRIVILEGES ON DATABASE umami TO bluemayne;"
+          psql -d umami -c "GRANT ALL PRIVILEGES ON SCHEMA public TO bluemayne;"
+
+          echo "Database initialization completed."
