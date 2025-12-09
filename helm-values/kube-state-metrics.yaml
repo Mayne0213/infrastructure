@@ -14,3 +14,11 @@ service:
   type: ClusterIP
   clusterIP: None
 
+# Prometheus ServiceMonitor 설정
+prometheus:
+  monitor:
+    enabled: true
+    additionalLabels:
+      release: prometheus
+    namespace: monitoring
+

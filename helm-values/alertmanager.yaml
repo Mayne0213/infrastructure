@@ -15,6 +15,13 @@ resources:
   limits:
     memory: 128Mi
 
+# Prometheus ServiceMonitor 설정
+serviceMonitor:
+  enabled: true
+  additionalLabels:
+    release: prometheus
+  namespace: monitoring
+
 config:
   global:
     resolve_timeout: 5m
