@@ -24,7 +24,10 @@ prometheus:
     additionalLabels:
       release: prometheus
     namespace: monitoring
-    jobLabel: ""  # job 이름을 service 이름(node-exporter)으로 사용
+    relabelings:
+      - sourceLabels: [__address__]
+        targetLabel: job
+        replacement: node-exporter
 
 tolerations:
   - effect: NoSchedule
