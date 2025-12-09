@@ -21,6 +21,23 @@ spec:
       labels:
         app: homer
     spec:
+      initContainers:
+      - name: copy-assets
+        image: alpine/git:latest
+        command: ['sh', '-c']
+        args:
+          - |
+            # Git에서 assets 복사
+            git clone --depth 1 --branch main https://github.com/Mayne0213/infrastructure.git /tmp/repo
+            # assets 폴더 복사
+            cp -r /tmp/repo/homer/assets /www/assets
+            # config.yml 복사
+            cp /config/config.yml /www/assets/config.yml
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: www
+          mountPath: /www
       containers:
       - name: homer
         image: b4bz/homer:latest
@@ -29,8 +46,8 @@ spec:
         - containerPort: 8080
           name: http
         volumeMounts:
-        - name: config
-          mountPath: "/www/assets"
+        - name: www
+          mountPath: "/www"
         resources:
           requests:
             memory: "64Mi"
@@ -42,6 +59,8 @@ spec:
       - name: config
         configMap:
           name: homer-config
+      - name: www
+        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
