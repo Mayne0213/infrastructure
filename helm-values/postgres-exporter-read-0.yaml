@@ -18,6 +18,7 @@ serviceMonitor:
   enabled: true
   namespace: monitoring
   additionalLabels:
+    release: prometheus
     instance: postgres-exporter-read-0
 
 resources:
