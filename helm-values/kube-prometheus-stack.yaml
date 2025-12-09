@@ -5,9 +5,15 @@
 # Global settings
 fullnameOverride: ""
 
+# CRD 관리
+crds:
+  enabled: false  # CRD는 수동으로 설치하여 annotation 크기 문제 방지
+
 # Prometheus Operator
 prometheusOperator:
   enabled: true
+  # CRD 생성 비활성화
+  createCustomResource: false
   
 # Prometheus
 prometheus:
