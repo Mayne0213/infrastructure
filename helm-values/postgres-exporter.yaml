@@ -7,7 +7,7 @@ fullnameOverride: postgres-exporter
 config:
   datasource:
     host: postgresql-primary.postgresql.svc.cluster.local
-    port: 5432
+    port: "5432"
     user: bluemayne
     passwordSecret:
       name: postgresql-password

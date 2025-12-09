@@ -11,7 +11,7 @@ spec:
   sources:
     - repoURL: https://charts.bitnami.com/bitnami
       chart: pgbouncer
-      targetRevision: 2.1.0
+      targetRevision: 0.1.0
       helm:
         valueFiles:
           - $values/helm-values/pgbouncer.yaml
