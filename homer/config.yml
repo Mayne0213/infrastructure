@@ -5,8 +5,9 @@ title: "Mayne"
 logo: "/assets/favicon.ico"
 icon: "/assets/favicon.ico"
 
-# Hide header/navbar
+# Hide header/navbar and footer
 header: false  # Hide the entire header (including title/logo)
+footer: false  # Hide the footer
 
 # Optional CSS
 stylesheet: "" # path to custom CSS
