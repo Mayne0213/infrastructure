@@ -40,7 +40,7 @@ datasources:
     - name: Prometheus
       type: prometheus
       access: proxy
-      url: http://prometheus-server:80
+      url: http://prometheus-kube-prometheus-prometheus:9090
       isDefault: true
       editable: true
     - name: Loki
