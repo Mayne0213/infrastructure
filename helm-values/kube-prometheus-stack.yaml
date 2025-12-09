@@ -70,6 +70,20 @@ nodeExporter:
 # Kube State Metrics (기존 kube-state-metrics 사용)
 kubeStateMetrics:
   enabled: false
+  
+# 외부 kube-state-metrics ServiceMonitor
+# kube-prometheus-stack이 자동으로 생성하지 않으므로 직접 생성
+additionalServiceMonitors:
+  - name: kube-state-metrics
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: kube-state-metrics
+    namespaceSelector:
+      matchNames:
+        - monitoring
+    endpoints:
+      - port: http
+        interval: 30s
 
 # 기본 ServiceMonitors
 defaultRules:
