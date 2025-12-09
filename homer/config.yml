@@ -10,7 +10,7 @@ header: false  # Hide the entire header (including title/logo)
 footer: false  # Hide the footer
 
 # Optional CSS
-stylesheet: "" # path to custom CSS
+stylesheet: "/assets/custom.css" # path to custom CSS (homer-theme)
 
 # Optional theme
 theme: "default" # 'default' or one of the themes available in 'src/assets/themes'
@@ -136,35 +136,35 @@ services:
     icon: "fas fa-server"
     items:
       - name: "Kubernetes Dashboard"
-        logo: "/assets/kubernetes.svg"
+        logo: "/assets/icons/kubernetes.svg"
         subtitle: "Kubernetes Management Dashboard"
         tag: "infra"
         keywords: "kubernetes k8s"
         url: "https://kubernetes0213.kro.kr"
         target: "_blank"
       - name: "ArgoCD"
-        logo: "/assets/argocd.svg"
+        logo: "/assets/icons/argocd.svg"
         subtitle: "GitOps Deployment Tool"
         tag: "infra"
         keywords: "argocd gitops"
         url: "https://argocd0213.kro.kr"
         target: "_blank"
       - name: "Grafana"
-        logo: "/assets/grafana.svg"
+        logo: "/assets/icons/grafana.svg"
         subtitle: "Monitoring Dashboard"
         tag: "infra"
         keywords: "grafana monitoring"
         url: "https://grafana0213.kro.kr"
         target: "_blank"
       - name: "Umami"
-        logo: "/assets/umami.svg"
+        logo: "/assets/icons/umami.svg"
         subtitle: "Website Analytics"
         tag: "infra"
         keywords: "analytics umami"
         url: "https://umami0213.kro.kr"
         target: "_blank"
       - name: "MinIO Console"
-        logo: "/assets/minio.svg"
+        logo: "/assets/icons/minio.svg"
         subtitle: "S3 Storage Management"
         tag: "infra"
         keywords: "minio s3 storage"

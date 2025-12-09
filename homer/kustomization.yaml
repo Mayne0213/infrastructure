@@ -4,15 +4,40 @@ kind: Kustomization
 resources:
   - homer.yaml
 
-# ConfigMap 생성: config.yml과 assets 폴더의 SVG 파일들을 포함
+# ConfigMap 생성: config.yml과 assets 폴더의 모든 파일들을 포함 (homer-theme 적용)
+# wallpaper 이미지는 크기 제한으로 제외
 configMapGenerator:
   - name: homer-config
     namespace: homer
     files:
       - config.yml
+      - assets/custom.css
+      - assets/manifest.json
       - assets/favicon.ico
-      - assets/kubernetes.svg
-      - assets/argocd.svg
-      - assets/grafana.svg
-      - assets/umami.svg
-      - assets/minio.svg
+      - assets/icons/kubernetes.svg
+      - assets/icons/argocd.svg
+      - assets/icons/grafana.svg
+      - assets/icons/umami.svg
+      - assets/icons/minio.svg
+      - assets/fonts/lato-v20-latin-700.eot
+      - assets/fonts/lato-v20-latin-700.svg
+      - assets/fonts/lato-v20-latin-700.ttf
+      - assets/fonts/lato-v20-latin-700.woff
+      - assets/fonts/lato-v20-latin-700.woff2
+      - assets/fonts/lato-v20-latin-900.eot
+      - assets/fonts/lato-v20-latin-900.svg
+      - assets/fonts/lato-v20-latin-900.ttf
+      - assets/fonts/lato-v20-latin-900.woff
+      - assets/fonts/lato-v20-latin-900.woff2
+      - assets/fonts/lato-v20-latin-regular.eot
+      - assets/fonts/lato-v20-latin-regular.svg
+      - assets/fonts/lato-v20-latin-regular.ttf
+      - assets/fonts/lato-v20-latin-regular.woff
+      - assets/fonts/lato-v20-latin-regular.woff2
+      - assets/fonts/raleway-v22-latin-regular.eot
+      - assets/fonts/raleway-v22-latin-regular.svg
+      - assets/fonts/raleway-v22-latin-regular.ttf
+      - assets/fonts/raleway-v22-latin-regular.woff
+      - assets/fonts/raleway-v22-latin-regular.woff2
+      - assets/icons/icon-any.svg
+      - assets/icons/safari-pinned-tab.svg
