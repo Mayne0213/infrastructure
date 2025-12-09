@@ -23,9 +23,15 @@ spec:
         - name: PGPORT
           value: "5432"
         - name: PGUSER
-          value: bluemayne
+          valueFrom:
+            secretKeyRef:
+              name: umami-password
+              key: database-user
         - name: PGPASSWORD
-          value: Po87345364
+          valueFrom:
+            secretKeyRef:
+              name: umami-password
+              key: database-password
         - name: PGDATABASE
           value: postgres
         command:

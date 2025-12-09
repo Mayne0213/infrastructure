@@ -58,3 +58,4 @@ resources:
   - sealed-secrets/postgresql/root/postgresql-password.yaml
   - sealed-secrets/postgresql/root/postgresql-password-dev.yaml
   - sealed-secrets/minio/minio-root-password.yaml
+  - sealed-secrets/analytics/umami-password.yaml

@@ -11,7 +11,7 @@ spec:
   sources:
     - repoURL: https://charts.christianhuth.de
       chart: umami
-      targetRevision: 1.0.0
+      targetRevision: 6.0.1
       helm:
         valueFiles:
           - $values/helm-values/umami.yaml
