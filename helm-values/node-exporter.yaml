@@ -24,10 +24,6 @@ prometheus:
     additionalLabels:
       release: prometheus
     namespace: monitoring
-    relabelings:
-      - sourceLabels: [__address__]
-        targetLabel: job
-        replacement: node-exporter
 
 tolerations:
   - effect: NoSchedule
