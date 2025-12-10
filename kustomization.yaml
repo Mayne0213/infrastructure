@@ -61,3 +61,7 @@ resources:
   - sealed-secrets/dev-tools/code-server-password.yaml
   - sealed-secrets/gitea/gitea-admin-secret.yaml
   - sealed-secrets/gitea/gitea-postgres-password.yaml
+  - sealed-secrets/gitea/gitea-runner-token.yaml
+
+  # Gitea Runner
+  - gitea-runner/
