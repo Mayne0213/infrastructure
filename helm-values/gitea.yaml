@@ -19,9 +19,9 @@ gitea:
 
   config:
     server:
-      DOMAIN: git.mayneyard.com
-      ROOT_URL: https://git.mayneyard.com
-      SSH_DOMAIN: git.mayneyard.com
+      DOMAIN: gitea0213.kro.kr
+      ROOT_URL: https://gitea0213.kro.kr
+      SSH_DOMAIN: gitea0213.kro.kr
       SSH_PORT: 22
       DISABLE_SSH: false
       START_SSH_SERVER: true
@@ -98,14 +98,14 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
   hosts:
-    - host: git.mayneyard.com
+    - host: gitea0213.kro.kr
       paths:
         - path: /
           pathType: Prefix
   tls:
     - secretName: gitea-tls
       hosts:
-        - git.mayneyard.com
+        - gitea0213.kro.kr
 
 # Resource limits
 resources:
