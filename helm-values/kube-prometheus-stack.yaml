@@ -109,7 +109,7 @@ prometheus:
   prometheusSpec:
     # External labels added to all metrics
     externalLabels:
-      cluster: ""
+      cluster: "mayne-cluster"
 
     additionalScrapeConfigs:
       # ArgoCD metrics
