@@ -15,6 +15,10 @@ stylesheet: "/assets/custom.css" # path to custom CSS (homer-theme)
 # Optional theme
 theme: "default" # 'default' or one of the themes available in 'src/assets/themes'
 
+# Default settings
+defaults:
+  colorTheme: "light" # Set default theme to light mode
+
 # Optional columns
 columns: "4" # You can change this to any number that is a factor of 12: (1, 2, 3, 4, 6, 12)
 
@@ -61,12 +65,12 @@ services:
     icon: "fas fa-code"
     items:
       - name: "Joossam"
-        logo: "https://joossameng.kro.kr/favicon.ico"
+        logo: "https://joossameng.com/favicon.ico"
         subtitle: "OMR Grading API"
         tag: "production"
         tagstyle: "is-success"
         keywords: "omr api"
-        url: "https://joossameng.kro.kr"
+        url: "https://joossameng.com"
         target: "_blank"
       - name: "Jaejadle"
         logo: "https://jaejadle.kro.kr/favicon.ico"
@@ -104,22 +108,6 @@ services:
   - name: "Development"
     icon: "fas fa-laptop-code"
     items:
-      - name: "Homer Dashboard"
-        logo: "/assets/icons/favicon-32x32.png"
-        subtitle: "Dashboard"
-        tag: "dev"
-        tagstyle: "is-warning"
-        keywords: "dashboard"
-        url: "https://mayne.kro.kr"
-        target: "_blank"
-      - name: "Umami"
-        logo: "/assets/icons/umami.svg"
-        subtitle: "Website Analytics"
-        tag: "dev"
-        tagstyle: "is-warning"
-        keywords: "analytics umami"
-        url: "https://umami0213.kro.kr"
-        target: "_blank"
       - name: "Code-server"
         logo: "/assets/icons/vscode.svg"
         subtitle: "VS Code in the Browser"
@@ -136,6 +124,14 @@ services:
         keywords: "git gitea"
         url: "https://gitea0213.kro.kr"
         target: "_blank"
+      - name: "Homer Dashboard"
+        logo: "/assets/icons/favicon-32x32.png"
+        subtitle: "Dashboard"
+        tag: "dev"
+        tagstyle: "is-warning"
+        keywords: "dashboard"
+        url: "https://mayne.kro.kr"
+        target: "_blank"
       - name: "Minecraft-Server"
         icon: "/assets/icons/minecraft.svg"
         subtitle: "Minecraft Server"
@@ -143,6 +139,14 @@ services:
         tagstyle: "is-warning"
         keywords: "minecraft game"
         url: "https://minecraft0213.kro.kr"
+        target: "_blank"
+      - name: "Umami"
+        logo: "/assets/icons/umami.svg"
+        subtitle: "Website Analytics"
+        tag: "dev"
+        tagstyle: "is-warning"
+        keywords: "analytics umami"
+        url: "https://umami0213.kro.kr"
         target: "_blank"
 
   - name: "Infrastructure"
@@ -178,7 +182,7 @@ services:
         tag: "infra"
         tagstyle: "is-info"
         keywords: "minio s3 storage"
-        url: "https://minio.minio0213.kro.kr"
+        url: "https://minio0213.kro.kr"
         target: "_blank"
       - name: "PgWeb"
         logo: "/assets/icons/postgresql.svg"
@@ -186,19 +190,20 @@ services:
         tag: "infra"
         tagstyle: "is-info"
         keywords: "postgresql pgweb"
-        url: "https://pgweb.pgweb0213.kro.kr"
+        url: "https://pgweb0213.kro.kr"
         target: "_blank"
 
   - name: "Demos"
     icon: "fas fa-code-branch"
     items:
       - name: "Joossam Dev"
-        logo: "https://dev.joossameng.kro.kr/favicon.ico"
+        # logo: "https://dev.joossam.com/favicon.ico"
+        logo: "https://joossameng.com/favicon.ico"
         subtitle: "Joossam Development Environment"
         tag: "dev"
         tagstyle: "is-warning"
         keywords: "dev"
-        url: "https://dev.joossameng.kro.kr"
+        url: "https://dev.joossameng.com"
         target: "_blank"
       - name: "Jaejadle Dev"
         logo: "https://dev.jaejadle.kro.kr/favicon.ico"

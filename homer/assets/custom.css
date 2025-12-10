@@ -135,3 +135,12 @@ body #bighead .navbar a:focus, body #bighead .navbar a:hover {
     transform: translateY(-2px);
     transition: transform 0.2s ease;
 }
+
+/* Hide theme switcher */
+.theme-switcher,
+.color-theme-switcher,
+[data-theme-switcher],
+button[aria-label*="theme"],
+button[aria-label*="Theme"] {
+    display: none !important;
+}
