@@ -23,7 +23,11 @@ prometheus:
     scrapeInterval: 30s
     evaluationInterval: 30s
     retention: 7d
-    
+
+    # External labels added to all metrics
+    externalLabels:
+      cluster: ""
+
     storageSpec:
       volumeClaimTemplate:
         spec:
