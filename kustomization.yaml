@@ -41,6 +41,7 @@ resources:
   - argocd/applications/homer.yaml
   - argocd/applications/loki.yaml
   - argocd/applications/promtail.yaml
+  - argocd/applications/reloader.yaml
   
   # Cert-Manager ClusterIssuers
   - cert-manager/cluster-issuer-prod.yaml

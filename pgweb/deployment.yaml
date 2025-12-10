@@ -11,6 +11,8 @@ metadata:
   namespace: pgweb
   labels:
     app: pgweb
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
