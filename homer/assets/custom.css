@@ -136,11 +136,10 @@ body #bighead .navbar a:focus, body #bighead .navbar a:hover {
     transition: transform 0.2s ease;
 }
 
-/* Hide theme switcher */
-.theme-switcher,
-.color-theme-switcher,
-[data-theme-switcher],
-button[aria-label*="theme"],
-button[aria-label*="Theme"] {
+/* Hide entire navbar */
+#bighead .navbar,
+.navbar-menu,
+.navbar-start,
+.navbar-end {
     display: none !important;
 }
