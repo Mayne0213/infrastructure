@@ -23,6 +23,16 @@ spec:
     server: https://kubernetes.default.svc
     namespace: analytics
   
+  ignoreDifferences:
+    # Ignore app-secret data changes in umami-app-secret
+    # Helm chart generates random app-secret value on each sync,
+    # causing ArgoCD to detect it as OutOfSync
+    - group: ""
+      kind: Secret
+      name: umami-app-secret
+      jsonPointers:
+        - /data
+  
   syncPolicy:
     automated:
       prune: true
