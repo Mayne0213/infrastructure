@@ -26,11 +26,11 @@ persistence:
   size: 45Gi
   storageClass: minio-local
 
-# Root credentials
-rootUser: bluemayne
-# Password is managed via SealedSecret: minio-root-password
+# Root credentials from SealedSecret
+# Secret contains: root-user and root-password keys
 existingSecret: minio-root-password
-existingSecretKey: root-password
+rootUserSecretKey: root-user
+rootPasswordSecretKey: root-password
 
 # Resources
 resources:
