@@ -12,8 +12,6 @@ resources:
   requests:
     cpu: 10m
     memory: 32Mi
-  limits:
-    memory: 128Mi
 
 # Prometheus ServiceMonitor 설정
 serviceMonitor:

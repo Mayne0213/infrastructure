@@ -10,8 +10,6 @@ resources:
   requests:
     cpu: 10m
     memory: 32Mi
-  limits:
-    memory: 128Mi
 
 webhook:
   replicaCount: 1
@@ -19,8 +17,6 @@ webhook:
     requests:
       cpu: 10m
       memory: 32Mi
-    limits:
-      memory: 128Mi
 
 cainjector:
   replicaCount: 1
@@ -28,8 +24,6 @@ cainjector:
     requests:
       cpu: 10m
       memory: 32Mi
-    limits:
-      memory: 256Mi
 
 # Prometheus metrics
 prometheus:

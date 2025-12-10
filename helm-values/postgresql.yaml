@@ -45,9 +45,6 @@ primary:
     requests:
       memory: "512Mi"
       cpu: "100m"
-    limits:
-      memory: "2Gi"
-      cpu: "1000m"
 
 readReplicas:
   replicaCount: 2
@@ -93,9 +90,6 @@ readReplicas:
     requests:
       memory: "512Mi"
       cpu: "100m"
-    limits:
-      memory: "2Gi"
-      cpu: "1000m"
 
 # Metrics for Prometheus (disabled due to ARM64 compatibility)
 metrics:

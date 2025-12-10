@@ -28,10 +28,8 @@ service:
 # Resource limits
 resources:
   requests:
-    cpu: 200m
-    memory: 512Mi
-  limits:
-    memory: 2Gi
+    cpu: 1000m  # 1 CPU core (within available 1080m)
+    memory: 4Gi  # 4GB (within available ~15GB)
 
 # Security context
 securityContext:

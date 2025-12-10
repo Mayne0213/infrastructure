@@ -10,8 +10,6 @@ resources:
   requests:
     cpu: 10m
     memory: 50Mi
-  limits:
-    memory: 100Mi
 
 service:
   type: ClusterIP
