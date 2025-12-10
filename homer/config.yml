@@ -133,7 +133,7 @@ services:
         url: "https://mayne.kro.kr"
         target: "_blank"
       - name: "Minecraft-Server"
-        logo: "/assets/icons/minecraft.webp"
+        logo: "/assets/icons/minecraft.svg"
         subtitle: "Minecraft Server"
         tag: "dev"
         tagstyle: "is-warning"

@@ -1,0 +1,71 @@
+fullnameOverride: code-server
+
+image:
+  repository: codercom/code-server
+  tag: 4.104.2
+  pullPolicy: Always
+
+# Persistence configuration for workspace data
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 20Gi
+  storageClassName: local-path
+
+# Use existing secret for password
+existingSecret: code-server-password
+existingSecretKey: password
+
+# Ingress configuration (will use main ingress)
+ingress:
+  enabled: false
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 8080
+
+# Resource limits
+resources:
+  requests:
+    cpu: 200m
+    memory: 512Mi
+  limits:
+    memory: 2Gi
+
+# Security context
+securityContext:
+  enabled: true
+  fsGroup: 1000
+  runAsUser: 1000
+
+# Volume permissions
+volumePermissions:
+  enabled: true
+
+# Extra arguments for code-server
+extraArgs:
+  - --auth
+  - password
+
+# Extra environment variables
+extraVars:
+  - name: TZ
+    value: "Asia/Seoul"
+
+# Health checks
+livenessProbe:
+  enabled: true
+  httpGet:
+    path: /healthz
+    port: 8080
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  enabled: true
+  httpGet:
+    path: /healthz
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 5

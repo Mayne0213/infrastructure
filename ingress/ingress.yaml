@@ -605,6 +605,51 @@ spec:
                   number: 80
 
 ---
+# code-server Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: code-server-ingress
+  namespace: dev-tools
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # WebSocket 지원 (code-server에 필요)
+    nginx.ingress.kubernetes.io/websocket-services: "code-server"
+    # 프록시 타임아웃 설정 (장시간 연결 유지)
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - vscode0213.kro.kr
+    - www.vscode0213.kro.kr
+    secretName: code-server-tls
+  rules:
+    - host: vscode0213.kro.kr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: code-server
+                port:
+                  number: 8080
+    - host: www.vscode0213.kro.kr
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: code-server
+                port:
+                  number: 8080
+
+---
 # ArgoCD UI Ingress
 apiVersion: networking.k8s.io/v1
 kind: Ingress
