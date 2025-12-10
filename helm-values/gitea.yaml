@@ -62,7 +62,7 @@ redis-cluster:
   enabled: false
 
 # Environment variables for database password
-statefulset:
+deployment:
   env:
     - name: GITEA__database__PASSWD
       valueFrom:
