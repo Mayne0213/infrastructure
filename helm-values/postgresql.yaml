@@ -44,7 +44,7 @@ primary:
   resources:
     requests:
       memory: "512Mi"
-      cpu: "100m"
+      cpu: "30m"  # Reduced to 30% of original (100m -> 30m)
 
 readReplicas:
   replicaCount: 2
@@ -89,7 +89,7 @@ readReplicas:
   resources:
     requests:
       memory: "512Mi"
-      cpu: "100m"
+      cpu: "30m"  # Reduced to 30% of original (100m -> 30m)
 
 # Metrics for Prometheus (disabled due to ARM64 compatibility)
 metrics:

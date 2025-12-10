@@ -6,7 +6,7 @@ controller:
   
   resources:
     requests:
-      cpu: 100m
+      cpu: 30m  # Reduced to 30% of original (100m -> 30m)
       memory: 128Mi
   
   # Metrics for Prometheus

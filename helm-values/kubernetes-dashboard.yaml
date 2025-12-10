@@ -25,7 +25,7 @@ service:
 # Resource limits
 resources:
   requests:
-    cpu: 50m
+    cpu: 15m  # Reduced to 30% of original (50m -> 15m)
     memory: 128Mi
 
 # Security settings

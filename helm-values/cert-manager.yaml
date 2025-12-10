@@ -8,21 +8,21 @@ replicaCount: 1
 
 resources:
   requests:
-    cpu: 10m
+    cpu: 3m  # Reduced to 30% of original (10m -> 3m)
     memory: 32Mi
 
 webhook:
   replicaCount: 1
   resources:
     requests:
-      cpu: 10m
+      cpu: 3m  # Reduced to 30% of original (10m -> 3m)
       memory: 32Mi
 
 cainjector:
   replicaCount: 1
   resources:
     requests:
-      cpu: 10m
+      cpu: 3m  # Reduced to 30% of original (10m -> 3m)
       memory: 32Mi
 
 # Prometheus metrics
