@@ -55,7 +55,7 @@ readReplicas:
     enabled: true
     size: 20Gi
     storageClass: local-path
-  
+
   # PostgreSQL configuration (must match primary for replication)
   extendedConfiguration: |
     max_connections = 200
@@ -70,7 +70,18 @@ readReplicas:
     work_mem = 1310kB
     min_wal_size = 1GB
     max_wal_size = 4GB
-  
+
+  # Force read replicas to different nodes for better availability
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/component: read
+            app.kubernetes.io/instance: postgresql
+            app.kubernetes.io/name: postgresql
+        topologyKey: kubernetes.io/hostname
+
   resources:
     requests:
       memory: "512Mi"
