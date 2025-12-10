@@ -23,5 +23,5 @@ prometheus:
     namespace: monitoring
     relabelings:
       - targetLabel: cluster
-        replacement: ""
+        replacement: "mayne-cluster"
 
