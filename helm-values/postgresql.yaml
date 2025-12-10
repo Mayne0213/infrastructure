@@ -72,12 +72,19 @@ readReplicas:
     max_wal_size = 4GB
 
   # Force read replicas to different nodes for better availability
+  # Avoid scheduling on the same node as primary or other read replicas
   affinity:
     podAntiAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
       - labelSelector:
           matchLabels:
             app.kubernetes.io/component: read
+            app.kubernetes.io/instance: postgresql
+            app.kubernetes.io/name: postgresql
+        topologyKey: kubernetes.io/hostname
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/component: primary
             app.kubernetes.io/instance: postgresql
             app.kubernetes.io/name: postgresql
         topologyKey: kubernetes.io/hostname
