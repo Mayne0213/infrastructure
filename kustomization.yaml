@@ -46,6 +46,7 @@ resources:
 
   # Development Tools
   - argocd/applications/code-server.yaml
+  - argocd/applications/gitea.yaml
 
   # Other resources (Ingress rules for all services)
   - ingress/ingress.yaml
@@ -58,3 +59,5 @@ resources:
   - sealed-secrets/minio/minio-root-password.yaml
   - sealed-secrets/analytics/umami-password.yaml
   - sealed-secrets/dev-tools/code-server-password.yaml
+  - sealed-secrets/gitea/gitea-admin-secret.yaml
+  - sealed-secrets/gitea/gitea-postgres-password.yaml

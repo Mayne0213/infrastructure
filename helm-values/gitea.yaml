@@ -1,0 +1,143 @@
+# Gitea Helm Values
+# Chart: https://gitea.com/gitea/helm-chart
+# Self-hosted Git service
+
+fullnameOverride: gitea
+
+replicaCount: 1
+
+image:
+  repository: gitea/gitea
+  tag: "1.24.6"
+  pullPolicy: IfNotPresent
+
+# Gitea configuration
+gitea:
+  admin:
+    # Admin credentials managed via environment variables
+    existingSecret: gitea-admin-secret
+
+  config:
+    server:
+      DOMAIN: git.mayneyard.com
+      ROOT_URL: https://git.mayneyard.com
+      SSH_DOMAIN: git.mayneyard.com
+      SSH_PORT: 22
+      DISABLE_SSH: false
+      START_SSH_SERVER: true
+      SSH_LISTEN_PORT: 2222
+
+    database:
+      DB_TYPE: postgres
+      HOST: postgresql.postgresql.svc.cluster.local:5432
+      NAME: gitea
+      USER: postgres
+      SCHEMA: public
+      SSL_MODE: disable
+
+    service:
+      DISABLE_REGISTRATION: false
+      REQUIRE_SIGNIN_VIEW: false
+      ENABLE_NOTIFY_MAIL: false
+
+    cache:
+      ENABLED: true
+      ADAPTER: memory
+
+    session:
+      PROVIDER: memory
+
+# PostgreSQL dependency (using existing PostgreSQL instance)
+postgresql:
+  enabled: false
+
+# Use existing PostgreSQL
+postgresql-ha:
+  enabled: false
+
+# Redis (optional, for caching)
+redis-cluster:
+  enabled: false
+
+# Environment variables for database password
+statefulset:
+  env:
+    - name: GITEA__database__PASSWD
+      valueFrom:
+        secretKeyRef:
+          name: gitea-postgres-password
+          key: password
+
+# Persistence for Gitea data
+persistence:
+  enabled: true
+  size: 10Gi
+  storageClass: local-path
+  accessModes:
+    - ReadWriteOnce
+
+# Service configuration
+service:
+  http:
+    type: ClusterIP
+    port: 3000
+  ssh:
+    type: LoadBalancer
+    port: 22
+    externalTrafficPolicy: Local
+    annotations:
+      metallb.universe.tf/allow-shared-ip: gitea
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+  hosts:
+    - host: git.mayneyard.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: gitea-tls
+      hosts:
+        - git.mayneyard.com
+
+# Resource limits
+resources:
+  requests:
+    cpu: 50m
+    memory: 256Mi
+  limits:
+    memory: 512Mi
+
+# Health checks
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 5
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+
+# Security context
+securityContext:
+  fsGroup: 1000
+
+# Init containers for database setup
+initPreScript: |
+  #!/bin/sh
+  echo "Waiting for PostgreSQL..."
+  until nc -z postgresql 5432; do
+    echo "Waiting for PostgreSQL to be ready..."
+    sleep 2
+  done
+  echo "PostgreSQL is ready"
