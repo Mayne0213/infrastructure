@@ -22,7 +22,7 @@ gitea:
       DOMAIN: gitea0213.kro.kr
       ROOT_URL: https://gitea0213.kro.kr
       SSH_DOMAIN: gitea0213.kro.kr
-      SSH_PORT: 22
+      SSH_PORT: 2222
       DISABLE_SSH: false
       START_SSH_SERVER: true
       SSH_LISTEN_PORT: 2222
@@ -83,7 +83,7 @@ service:
     port: 3000
   ssh:
     type: LoadBalancer
-    port: 22
+    port: 2222
     externalTrafficPolicy: Local
     annotations:
       metallb.universe.tf/allow-shared-ip: gitea
