@@ -42,12 +42,10 @@ resources:
   - argocd/applications/loki.yaml
   - argocd/applications/promtail.yaml
   - argocd/applications/reloader.yaml
+  - argocd/applications/pgweb.yaml
 
   # Other resources (Ingress rules for all services)
   - ingress/ingress.yaml
-
-  # pgweb PostgreSQL database browser
-  - pgweb/
 
   # Sealed Secrets
   - sealed-secrets/monitoring/grafana-admin-password.yaml
