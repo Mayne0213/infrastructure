@@ -46,9 +46,6 @@ resources:
   # Other resources (Ingress rules for all services)
   - ingress/ingress.yaml
 
-  # Umami database initialization
-  - umami/
-
   # pgweb PostgreSQL database browser
   - pgweb/
 
