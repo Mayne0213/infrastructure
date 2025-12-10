@@ -35,21 +35,25 @@ spec:
             secretKeyRef:
               name: pgweb-password
               key: database-url
-        - name: AUTH_USER
+        - name: PGWEB_AUTH_USER
           valueFrom:
             secretKeyRef:
               name: pgweb-password
               key: auth-user
-        - name: AUTH_PASS
+        - name: PGWEB_AUTH_PASS
           valueFrom:
             secretKeyRef:
               name: pgweb-password
               key: auth-password
-        args:
-        - "--bind=0.0.0.0"
-        - "--listen=8081"
-        - "--auth-user=$(AUTH_USER)"
-        - "--auth-pass=$(AUTH_PASS)"
+        command:
+        - /bin/sh
+        - -c
+        - |
+          exec pgweb \
+            --bind=0.0.0.0 \
+            --listen=8081 \
+            --auth-user="${PGWEB_AUTH_USER}" \
+            --auth-pass="${PGWEB_AUTH_PASS}"
         resources:
           requests:
             memory: "64Mi"
