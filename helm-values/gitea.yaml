@@ -49,6 +49,10 @@ gitea:
     session:
       PROVIDER: memory
 
+    actions:
+      ENABLED: true
+      DEFAULT_ACTIONS_URL: https://github.com
+
 # PostgreSQL dependency (using existing PostgreSQL instance)
 postgresql:
   enabled: false
