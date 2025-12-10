@@ -136,10 +136,7 @@ body #bighead .navbar a:focus, body #bighead .navbar a:hover {
     transition: transform 0.2s ease;
 }
 
-/* Hide entire navbar */
-#bighead .navbar,
-.navbar-menu,
-.navbar-start,
-.navbar-end {
+/* Hide theme toggle button only */
+.navbar-item[aria-label="Toggle dark mode"] {
     display: none !important;
 }
