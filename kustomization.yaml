@@ -42,11 +42,7 @@ resources:
   - argocd/applications/loki.yaml
   - argocd/applications/promtail.yaml
   - argocd/applications/reloader.yaml
-  
-  # Cert-Manager ClusterIssuers
-  - cert-manager/cluster-issuer-prod.yaml
-  - cert-manager/cluster-issuer-staging.yaml
-  
+
   # Other resources (Ingress rules for all services)
   - ingress/ingress.yaml
 
