@@ -25,8 +25,8 @@ gitea:
       ROOT_URL: https://gitea0213.kro.kr
       SSH_DOMAIN: gitea0213.kro.kr
       SSH_PORT: 2222
-      DISABLE_SSH: false
-      START_SSH_SERVER: true
+      DISABLE_SSH: true
+      START_SSH_SERVER: false
       SSH_LISTEN_PORT: 2222
 
     database:
