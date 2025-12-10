@@ -29,7 +29,10 @@ spec:
           name: http
         env:
         - name: DATABASE_URL
-          value: "postgres://bluemayne:Po87345364@@postgresql-primary.postgresql.svc.cluster.local:5432/postgres?sslmode=disable"
+          valueFrom:
+            secretKeyRef:
+              name: pgweb-password
+              key: database-url
         args:
         - "--bind=0.0.0.0"
         - "--listen=8081"
