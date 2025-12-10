@@ -45,15 +45,9 @@ spec:
             secretKeyRef:
               name: pgweb-password
               key: auth-password
-        command:
-        - /bin/sh
-        - -c
-        - |
-          exec pgweb \
-            --bind=0.0.0.0 \
-            --listen=8081 \
-            --auth-user="${PGWEB_AUTH_USER}" \
-            --auth-pass="${PGWEB_AUTH_PASS}"
+        args:
+        - "--bind=0.0.0.0"
+        - "--listen=8081"
         resources:
           requests:
             memory: "64Mi"
