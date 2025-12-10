@@ -14,6 +14,23 @@ prometheusOperator:
   enabled: true
   # CRD 생성 비활성화
   createCustomResource: false
+
+# Kubelet ServiceMonitor with cluster label
+kubelet:
+  enabled: true
+  serviceMonitor:
+    # cAdvisor metrics (container_memory_working_set_bytes 등)
+    cAdvisorRelabelings:
+      - targetLabel: cluster
+        replacement: "mayne-cluster"
+    # Resource metrics
+    resourceRelabelings:
+      - targetLabel: cluster
+        replacement: "mayne-cluster"
+    # Probes metrics
+    probesRelabelings:
+      - targetLabel: cluster
+        replacement: "mayne-cluster"
   
 # Prometheus
 prometheus:

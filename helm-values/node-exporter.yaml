@@ -26,6 +26,9 @@ prometheus:
     namespace: monitoring
     attachMetadata:
       node: true
+    relabelings:
+      - targetLabel: cluster
+        replacement: "mayne-cluster"
 
 tolerations:
   - effect: NoSchedule
