@@ -24,10 +24,6 @@ prometheus:
     evaluationInterval: 30s
     retention: 7d
 
-    # External labels added to all metrics
-    externalLabels:
-      cluster: ""
-
     storageSpec:
       volumeClaimTemplate:
         spec:
@@ -111,6 +107,10 @@ defaultRules:
 # Additional scrape configs for existing services
 prometheus:
   prometheusSpec:
+    # External labels added to all metrics
+    externalLabels:
+      cluster: ""
+
     additionalScrapeConfigs:
       # ArgoCD metrics
       - job_name: 'argocd-metrics'
