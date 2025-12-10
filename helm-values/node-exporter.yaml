@@ -24,6 +24,8 @@ prometheus:
     additionalLabels:
       release: prometheus
     namespace: monitoring
+    attachMetadata:
+      node: true
 
 tolerations:
   - effect: NoSchedule
