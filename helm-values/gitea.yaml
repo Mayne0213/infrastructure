@@ -31,7 +31,7 @@ gitea:
 
     database:
       DB_TYPE: postgres
-      HOST: postgresql.postgresql.svc.cluster.local:5432
+      HOST: postgresql-primary.postgresql.svc.cluster.local:5432
       NAME: gitea
       USER: postgres
       SCHEMA: public
@@ -138,7 +138,7 @@ securityContext:
 initPreScript: |
   #!/bin/sh
   echo "Waiting for PostgreSQL..."
-  until nc -z postgresql.postgresql.svc.cluster.local 5432; do
+  until nc -z postgresql-primary.postgresql.svc.cluster.local 5432; do
     echo "Waiting for PostgreSQL to be ready..."
     sleep 2
   done
