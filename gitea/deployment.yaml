@@ -51,7 +51,7 @@ spec:
           image: docker:dind
           env:
             - name: DOCKER_TLS_CERTDIR
-              value: /certs
+              value: ""
           securityContext:
             privileged: true
           volumeMounts:
@@ -65,7 +65,7 @@ spec:
             - sh
             - -c
             - |
-              while ! nc -z localhost 2376 </dev/null; do
+              while ! nc -z localhost 2375 </dev/null; do
                 echo 'waiting for docker daemon...';
                 sleep 1;
               done
@@ -73,11 +73,7 @@ spec:
               act_runner daemon
           env:
             - name: DOCKER_HOST
-              value: tcp://localhost:2376
-            - name: DOCKER_CERT_PATH
-              value: /certs/client
-            - name: DOCKER_TLS_VERIFY
-              value: "1"
+              value: tcp://localhost:2375
             - name: GITEA_INSTANCE_URL
               value: "http://gitea-http.gitea.svc.cluster.local:3000"
             - name: GITEA_RUNNER_REGISTRATION_TOKEN
