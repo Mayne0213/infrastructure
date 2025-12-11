@@ -15,7 +15,7 @@ spec:
       helm:
         valueFiles:
           - $values/helm-values/umami.yaml
-    - repoURL: https://github.com/Mayne0213/infrastructure.git
+    - repoURL: https://gitea0213.kro.kr/bluemayne/infrastructure.git
       targetRevision: main
       ref: values
   

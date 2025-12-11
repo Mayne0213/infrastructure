@@ -19,7 +19,7 @@ spec:
       helm:
         valueFiles:
           - $values/helm-values/promtail.yaml
-    - repoURL: https://github.com/Mayne0213/infrastructure.git
+    - repoURL: https://gitea0213.kro.kr/bluemayne/infrastructure.git
       targetRevision: HEAD
       ref: values
   destination:

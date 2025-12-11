@@ -9,7 +9,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/Mayne0213/portfolio.git
+    repoURL: https://gitea0213.kro.kr/bluemayne/portfolio.git
     targetRevision: main
     path: deploy/k8s/overlays/prod
 

@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/Mayne0213/jaejadle.git
+    repoURL: https://gitea0213.kro.kr/bluemayne/jaejadle.git
     targetRevision: develop
     path: deploy/k8s/overlays/dev
   destination:
