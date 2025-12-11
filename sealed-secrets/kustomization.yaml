@@ -24,3 +24,4 @@ resources:
   - gitea/gitea-postgres-password.yaml
   - gitea/gitea-runner-token.yaml
   - gitea/gitea-minio-credentials.yaml
+  - gitea/minio-root-password.yaml
