@@ -44,3 +44,11 @@ spec:
         maxDuration: 3m
 
   revisionHistoryLimit: 10
+
+  # Ignore differences in checksum annotations
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      name: gitea
+      jsonPointers:
+        - /spec/template/metadata/annotations/checksum~1config
