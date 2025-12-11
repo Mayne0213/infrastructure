@@ -49,6 +49,9 @@ gitea:
     session:
       PROVIDER: memory
 
+    git:
+      PATH: /usr/bin/git
+
     actions:
       ENABLED: true
       DEFAULT_ACTIONS_URL: https://github.com
