@@ -15,9 +15,9 @@ data:
       fetch_timeout: 5s
       fetch_interval: 2s
       labels:
-        - "ubuntu-latest:docker://node:20-bookworm"
-        - "ubuntu-24.04:docker://node:20-bookworm"
-        - "ubuntu-24.04-arm:docker://node:20-bookworm"
+        - "ubuntu-latest:docker://catthehacker/ubuntu:act-latest"
+        - "ubuntu-24.04:docker://catthehacker/ubuntu:act-latest"
+        - "ubuntu-24.04-arm:docker://catthehacker/ubuntu:act-latest"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -69,7 +69,7 @@ spec:
                 echo 'waiting for docker daemon...';
                 sleep 1;
               done
-              act_runner register --no-interactive --instance "$GITEA_INSTANCE_URL" --token "$GITEA_RUNNER_REGISTRATION_TOKEN" --name k8s-runner --labels "ubuntu-latest:docker://node:20-bookworm,ubuntu-24.04:docker://node:20-bookworm,ubuntu-24.04-arm:docker://node:20-bookworm"
+              act_runner register --no-interactive --instance "$GITEA_INSTANCE_URL" --token "$GITEA_RUNNER_REGISTRATION_TOKEN" --name k8s-runner --labels "ubuntu-latest:docker://catthehacker/ubuntu:act-latest,ubuntu-24.04:docker://catthehacker/ubuntu:act-latest,ubuntu-24.04-arm:docker://catthehacker/ubuntu:act-latest"
               act_runner daemon
           env:
             - name: DOCKER_HOST
