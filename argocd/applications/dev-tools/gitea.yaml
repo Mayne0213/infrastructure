@@ -17,7 +17,7 @@ spec:
         valueFiles:
           - $values/helm-values/gitea.yaml
     # Values file from Git repository
-    - repoURL: https://github.com/Mayne0213/infrastructure.git
+    - repoURL: https://gitea0213.kro.kr/bluemayne/infrastructure.git
       targetRevision: main
       ref: values
 
