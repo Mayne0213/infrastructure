@@ -82,6 +82,10 @@ postgresql:
 postgresql-ha:
   enabled: false
 
+# Valkey cluster (disabled, using memory for cache/session)
+valkey-cluster:
+  enabled: false
+
 # Redis (optional, for caching)
 redis-cluster:
   enabled: false
