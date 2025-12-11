@@ -1,0 +1,333 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gitea-backup
+  namespace: gitea
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: gitea-backup
+  namespace: gitea
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments", "deployments/scale"]
+  verbs: ["get", "patch", "update"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gitea-backup
+  namespace: gitea
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: gitea-backup
+subjects:
+- kind: ServiceAccount
+  name: gitea-backup
+  namespace: gitea
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gitea-backup
+  namespace: gitea
+  annotations:
+    argocd.argoproj.io/tracking-id: infrastructure:batch/CronJob:gitea/gitea-backup
+spec:
+  # Run backup every day at 2 AM
+  schedule: "0 2 * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: gitea-backup
+          restartPolicy: OnFailure
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+          initContainers:
+            # Scale down Gitea deployment for consistent backup
+            - name: scale-down-gitea
+              image: bitnami/kubectl:latest
+              command:
+                - sh
+                - -c
+                - |
+                  echo "Scaling down Gitea deployment for backup..."
+                  kubectl scale deployment gitea --replicas=0 -n gitea || true
+                  echo "Waiting for Gitea pods to terminate..."
+                  sleep 10
+                  echo "Gitea scaled down"
+            # Install MinIO client (mc) to shared volume (mysql-backup과 동일한 방식)
+            - name: install-mc
+              image: minio/mc:latest
+              securityContext:
+                runAsUser: 0
+              command: ["sh", "-c"]
+              args:
+              - |
+                cp /usr/bin/mc /tools/mc
+                chmod +x /tools/mc
+              volumeMounts:
+              - name: tools
+                mountPath: /tools
+            # Fix /data/ssh permissions for gitea dump
+            - name: fix-ssh-permissions
+              image: busybox:latest
+              securityContext:
+                runAsUser: 0
+              command:
+                - sh
+                - -c
+                - |
+                  echo "Fixing /data/ssh permissions..."
+                  chmod -R 755 /data/ssh || true
+                  chown -R 1000:1000 /data/ssh || true
+                  echo "Permissions fixed"
+              volumeMounts:
+                - name: gitea-data
+                  mountPath: /data
+            # PostgreSQL backup container
+            - name: postgres-backup
+              image: postgres:18
+              command:
+                - sh
+                - -c
+                - |
+                  set -e
+                  echo "Starting PostgreSQL backup..."
+
+                  mkdir -p /backup/db
+                  cd /backup/db
+
+                  # Get list of all databases
+                  export PGPASSWORD="${POSTGRES_PASSWORD}"
+                  DATABASES=$(psql -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -t -c "SELECT datname FROM pg_database WHERE datistemplate = false AND datname != 'postgres';")
+
+                  # Backup each database
+                  for db in $DATABASES; do
+                    echo "Backing up database: $db"
+                    pg_dump -h ${POSTGRES_HOST} -U ${POSTGRES_USER} -d $db -F c -f "${db}_$(date +%Y%m%d_%H%M%S).dump"
+                  done
+
+                  echo "PostgreSQL backup completed"
+              env:
+                - name: POSTGRES_HOST
+                  value: "postgresql-primary.postgresql.svc.cluster.local"
+                - name: POSTGRES_USER
+                  value: "postgres"
+                - name: POSTGRES_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: gitea-postgres-password
+                      key: password
+              volumeMounts:
+                - name: backup-storage
+                  mountPath: /backup
+
+          containers:
+            - name: backup
+              image: gitea/gitea:1.24.6
+              command:
+                - sh
+                - -c
+                - |
+                  set -e
+                  echo "Starting Gitea backup..."
+
+                  # Create backup directories
+                  mkdir -p /backup/temp
+                  cd /backup/temp
+
+                  # Run gitea dump to create backup
+                  # Note: Gitea should be scaled down before backup for consistency
+                  # (handled by init container)
+                  /usr/local/bin/gitea dump -c /data/gitea/conf/app.ini
+
+                  BACKUP_FILE=$(ls -t gitea-dump-*.zip | head -1)
+                  echo "Backup created: $BACKUP_FILE"
+
+                  # Prepare backup directories
+                  mkdir -p /backup/repositories /backup/settings /backup/db
+                  DATE=$(date +%Y%m%d_%H%M%S)
+                  
+                  # Always copy the full gitea dump file (primary backup for restore)
+                  # This contains everything: database, repositories, settings, data
+                  cp "$BACKUP_FILE" "/backup/settings/gitea-full-dump_${DATE}.zip"
+                  echo "Full dump file prepared: gitea-full-dump_${DATE}.zip"
+                  
+                  # Create a single tar.gz archive of all database backups
+                  if [ -d "/backup/db" ] && [ "$(ls -A /backup/db)" ]; then
+                    echo "Creating combined database backup archive..."
+                    cd /backup/db
+                    tar -czf "/backup/db/databases_${DATE}.tar.gz" *.dump 2>/dev/null || echo "Warning: Could not create database archive"
+                    echo "Database backup archive created: databases_${DATE}.tar.gz"
+                    # Remove individual dump files after archiving (optional, to save space)
+                    # rm -f *.dump
+                  fi
+                  
+                  # Try to extract for individual component backups (optional, for convenience)
+                  # Use Python's zipfile module (available in gitea image) or unzip
+                  EXTRACTED=false
+                  if python3 -c "import zipfile" 2>/dev/null; then
+                    echo "Extracting dump using Python..."
+                    python3 -c "import zipfile, sys; zipfile.ZipFile('$BACKUP_FILE').extractall('.')" && EXTRACTED=true
+                  elif command -v unzip &> /dev/null; then
+                    echo "Extracting dump using unzip..."
+                    unzip -qo "$BACKUP_FILE" && EXTRACTED=true
+                  else
+                    echo "Note: Cannot extract dump (no unzip/python), full dump file will be used for restore"
+                  fi
+                  
+                  # Backup repositories directly from /data/git/gitea-repositories
+                  # This is more reliable than extracting from dump file
+                  echo "Backing up repositories from /data/git/gitea-repositories..."
+                  if [ -d "/data/git/gitea-repositories" ] && [ "$(ls -A /data/git/gitea-repositories 2>/dev/null)" ]; then
+                    cd /data/git/gitea-repositories
+                    for repo in */; do
+                      if [ -d "$repo" ]; then
+                        repo_name=$(basename "$repo")
+                        echo "Archiving repository: $repo_name"
+                        tar -czf "/backup/repositories/${repo_name}_${DATE}.tar.gz" -C /data/git/gitea-repositories "$repo" 2>/dev/null || echo "Warning: Could not archive $repo_name"
+                      fi
+                    done
+                    echo "Repositories backup completed"
+                  else
+                    echo "Warning: /data/git/gitea-repositories directory not found or empty"
+                    # Fallback: try to extract from dump file if available
+                    if [ "$EXTRACTED" = true ] && [ -d "gitea-repo" ] && [ "$(ls -A gitea-repo 2>/dev/null)" ]; then
+                      echo "Trying to backup from extracted dump file..."
+                      cd gitea-repo
+                      for repo in */; do
+                        if [ -d "$repo" ]; then
+                          repo_name=$(basename "$repo")
+                          echo "Archiving repository from dump: $repo_name"
+                          tar -czf "/backup/repositories/${repo_name}_${DATE}.tar.gz" "$repo" 2>/dev/null || echo "Warning: Could not archive $repo_name"
+                        fi
+                      done
+                      cd ..
+                    fi
+                  fi
+
+                  # If extraction succeeded, create individual component archives for settings (tar.gz format)
+                  # These are optional but useful for selective restore
+                  if [ "$EXTRACTED" = true ]; then
+                    echo "Creating individual component archives for settings..."
+                    
+                    # Archive settings separately (tar.gz format)
+                    if [ -f "app.ini" ]; then
+                      echo "Archiving app.ini..."
+                      tar -czf "/backup/settings/gitea-config_${DATE}.tar.gz" app.ini 2>/dev/null || echo "Warning: Could not archive app.ini"
+                    fi
+                    if [ -d "custom" ] && [ "$(ls -A custom 2>/dev/null)" ]; then
+                      echo "Archiving custom directory..."
+                      tar -czf "/backup/settings/gitea-custom_${DATE}.tar.gz" custom/ 2>/dev/null || echo "Warning: Could not archive custom directory"
+                    fi
+                    echo "Individual component archives created"
+                  fi
+
+                  # MinIO 클라이언트 설정 (mysql-backup과 동일한 방식)
+                  MC_CONFIG_DIR="/tmp/mc-config"
+                  mkdir -p ${MC_CONFIG_DIR}
+                  MC="/tools/mc --insecure --config-dir ${MC_CONFIG_DIR}"
+                  
+                  # MinIO 연결
+                  echo "Connecting to MinIO..."
+                  ${MC} alias set myminio http://${MINIO_ENDPOINT} ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD}
+
+                  # Create buckets if not exists
+                  for bucket in repositories databases settings; do
+                    if ! ${MC} stat myminio/${bucket} > /dev/null 2>&1; then
+                      echo "Creating bucket ${bucket}..."
+                      ${MC} mb myminio/${bucket}
+                    fi
+                  done
+
+                  # Upload repositories to MinIO
+                  if [ -d "/backup/repositories" ] && [ "$(ls -A /backup/repositories)" ]; then
+                    echo "Uploading repositories to MinIO..."
+                    ${MC} cp --recursive /backup/repositories/* myminio/repositories/
+                  fi
+
+                  # Upload database backups to MinIO (upload the tar.gz archive)
+                  if [ -d "/backup/db" ] && [ "$(ls -A /backup/db/*.tar.gz 2>/dev/null)" ]; then
+                    echo "Uploading database backup archive to MinIO..."
+                    ${MC} cp /backup/db/databases_*.tar.gz myminio/databases/
+                  elif [ -d "/backup/db" ] && [ "$(ls -A /backup/db)" ]; then
+                    # Fallback: upload individual dump files if archive doesn't exist
+                    echo "Uploading individual database backups to MinIO..."
+                    ${MC} cp --recursive /backup/db/*.dump myminio/databases/ 2>/dev/null || true
+                  fi
+
+                  # Upload settings to MinIO
+                  if [ -d "/backup/settings" ] && [ "$(ls -A /backup/settings)" ]; then
+                    echo "Uploading settings to MinIO..."
+                    ${MC} cp --recursive /backup/settings/* myminio/settings/
+                  fi
+
+                  # Keep only last 7 backups in each bucket
+                  for bucket in repositories databases settings; do
+                    echo "Cleaning old backups in $bucket..."
+                    ${MC} find myminio/${bucket} --older-than 7d --exec "${MC} rm {}" || true
+                  done
+                  
+                  # Cleanup
+                  rm -rf ${MC_CONFIG_DIR}
+
+                  echo "Backup completed successfully"
+                  
+                  # Scale up Gitea deployment after backup
+                  echo "Scaling up Gitea deployment..."
+                  kubectl scale deployment gitea --replicas=1 -n gitea || echo "Warning: Could not scale up Gitea"
+                  echo "Gitea scaled up"
+              env:
+                - name: USER_UID
+                  value: "1000"
+                - name: USER_GID
+                  value: "1000"
+                - name: GITEA__database__DB_TYPE
+                  value: "postgres"
+                - name: GITEA__database__HOST
+                  value: "postgresql-primary.postgresql.svc.cluster.local:5432"
+                - name: GITEA__database__NAME
+                  value: "gitea"
+                - name: GITEA__database__USER
+                  value: "postgres"
+                - name: GITEA__database__PASSWD
+                  valueFrom:
+                    secretKeyRef:
+                      name: gitea-postgres-password
+                      key: password
+                - name: MINIO_ENDPOINT
+                  value: "minio.minio.svc.cluster.local:9000"
+                - name: MINIO_ROOT_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: minio-root-password
+                      key: root-user
+                - name: MINIO_ROOT_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: minio-root-password
+                      key: root-password
+              volumeMounts:
+                - name: gitea-data
+                  mountPath: /data
+                - name: backup-storage
+                  mountPath: /backup
+                - name: tools
+                  mountPath: /tools
+          volumes:
+            - name: gitea-data
+              persistentVolumeClaim:
+                claimName: gitea-shared-storage
+            - name: backup-storage
+              emptyDir: {}
+            - name: tools
+              emptyDir: {}

@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  # Monitoring
+  - monitoring/grafana-admin-password.yaml
+  - monitoring/postgresql-password.yaml
+  
+  # PostgreSQL
+  - postgresql/root/postgresql-password.yaml
+  - postgresql/root/postgresql-password-dev.yaml
+  
+  # MinIO
+  - minio/minio-root-password.yaml
+  
+  # Analytics
+  - analytics/umami-password.yaml
+  
+  # Development Tools
+  - dev-tools/code-server-password.yaml
+  
+  # Gitea
+  - gitea/gitea-admin-secret.yaml
+  - gitea/gitea-postgres-password.yaml
+  - gitea/gitea-runner-token.yaml
+  - gitea/gitea-minio-credentials.yaml
