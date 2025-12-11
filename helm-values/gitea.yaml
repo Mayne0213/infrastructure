@@ -54,7 +54,15 @@ gitea:
 
     actions:
       ENABLED: true
-      DEFAULT_ACTIONS_URL: https://github.com
+      DEFAULT_ACTIONS_URL: github
+
+    packages:
+      ENABLED: true
+      CHUNKED_UPLOAD_PATH: /data/packages/chunked-upload
+
+    container:
+      ENABLED: true
+      REGISTRY_HOST: gitea0213.kro.kr
 
   # Health checks
   livenessProbe:
