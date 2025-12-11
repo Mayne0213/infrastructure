@@ -6,4 +6,6 @@ resources:
   - argocd/
   - ingress/ingress.yaml
   - sealed-secrets/
-  - gitea/
+  # Gitea is managed manually to avoid circular dependency
+  # Apply with: kubectl apply -f gitea/
+  # - gitea/

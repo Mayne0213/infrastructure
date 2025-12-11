@@ -3,4 +3,5 @@ kind: Kustomization
 
 resources:
   - code-server.yaml
-  - gitea.yaml
+  # Gitea is managed manually to avoid circular dependency
+  # - gitea.yaml
