@@ -68,7 +68,7 @@ spec:
                   cd /backup/temp
 
                   # Run gitea dump to create backup
-                  /usr/local/bin/gitea dump -c /etc/gitea/app.ini
+                  /usr/local/bin/gitea dump -c /data/gitea/conf/app.ini
 
                   BACKUP_FILE=$(ls -t gitea-dump-*.zip | head -1)
                   echo "Backup created: $BACKUP_FILE"
@@ -172,16 +172,11 @@ spec:
               volumeMounts:
                 - name: gitea-data
                   mountPath: /data
-                - name: gitea-config
-                  mountPath: /etc/gitea
                 - name: backup-storage
                   mountPath: /backup
           volumes:
             - name: gitea-data
               persistentVolumeClaim:
                 claimName: gitea-shared-storage
-            - name: gitea-config
-              configMap:
-                name: gitea
             - name: backup-storage
               emptyDir: {}
