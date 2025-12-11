@@ -67,3 +67,4 @@ resources:
   # Gitea Runner and Backup
   - gitea-runner/
   - gitea-backup/create-bucket-job.yaml
+  - gitea-backup/backup-cronjob.yaml
