@@ -179,7 +179,7 @@ spec:
           volumes:
             - name: gitea-data
               persistentVolumeClaim:
-                claimName: gitea
+                claimName: gitea-shared-storage
             - name: gitea-config
               configMap:
                 name: gitea
