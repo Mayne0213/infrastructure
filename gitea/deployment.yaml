@@ -18,6 +18,9 @@ data:
         - "ubuntu-latest:docker://catthehacker/ubuntu:act-latest"
         - "ubuntu-24.04:docker://catthehacker/ubuntu:act-latest"
         - "ubuntu-24.04-arm:docker://catthehacker/ubuntu:act-latest"
+    container:
+      network: host
+      options: -e DOCKER_HOST=tcp://localhost:2375
 ---
 apiVersion: apps/v1
 kind: Deployment
