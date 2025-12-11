@@ -69,7 +69,7 @@ spec:
                 echo 'waiting for docker daemon...';
                 sleep 1;
               done
-              act_runner register --no-interactive --instance "$GITEA_INSTANCE_URL" --token "$GITEA_RUNNER_REGISTRATION_TOKEN" --name k8s-runner --labels ubuntu-latest:docker://node:20-bookworm,ubuntu-24.04:docker://node:20-bookworm,ubuntu-24.04-arm:docker://arm64v8/node:20-bookworm
+              act_runner register --no-interactive --instance "$GITEA_INSTANCE_URL" --token "$GITEA_RUNNER_REGISTRATION_TOKEN" --name k8s-runner --labels ubuntu-latest:docker://docker:dind,ubuntu-24.04:docker://docker:dind,ubuntu-24.04-arm:docker://arm64v8/docker:dind
               act_runner daemon
           env:
             - name: DOCKER_HOST
