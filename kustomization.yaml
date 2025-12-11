@@ -62,6 +62,8 @@ resources:
   - sealed-secrets/gitea/gitea-admin-secret.yaml
   - sealed-secrets/gitea/gitea-postgres-password.yaml
   - sealed-secrets/gitea/gitea-runner-token.yaml
+  - sealed-secrets/gitea/gitea-minio-credentials.yaml
 
-  # Gitea Runner
+  # Gitea Runner and Backup
   - gitea-runner/
+  - gitea-backup/create-bucket-job.yaml

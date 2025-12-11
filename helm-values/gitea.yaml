@@ -53,6 +53,42 @@ gitea:
       ENABLED: true
       DEFAULT_ACTIONS_URL: https://github.com
 
+    # Storage configuration - use MinIO for attachments and LFS
+    storage:
+      STORAGE_TYPE: minio
+      SERVE_DIRECT: false
+      MINIO_ENDPOINT: minio.minio.svc.cluster.local:9000
+      MINIO_BUCKET: gitea
+      MINIO_LOCATION: us-east-1
+      MINIO_USE_SSL: false
+      MINIO_INSECURE_SKIP_VERIFY: false
+
+    # LFS (Large File Storage) - use MinIO
+    lfs:
+      STORAGE_TYPE: minio
+      SERVE_DIRECT: false
+      MINIO_ENDPOINT: minio.minio.svc.cluster.local:9000
+      MINIO_BUCKET: gitea
+      MINIO_LOCATION: us-east-1
+      MINIO_USE_SSL: false
+
+    # Attachments - use MinIO
+    attachment:
+      STORAGE_TYPE: minio
+      SERVE_DIRECT: false
+      MINIO_ENDPOINT: minio.minio.svc.cluster.local:9000
+      MINIO_BUCKET: gitea
+      MINIO_LOCATION: us-east-1
+      MINIO_USE_SSL: false
+
+    # Avatar - use MinIO
+    avatar:
+      STORAGE_TYPE: minio
+      MINIO_ENDPOINT: minio.minio.svc.cluster.local:9000
+      MINIO_BUCKET: gitea
+      MINIO_LOCATION: us-east-1
+      MINIO_USE_SSL: false
+
 # PostgreSQL dependency (using existing PostgreSQL instance)
 postgresql:
   enabled: false
@@ -65,7 +101,7 @@ postgresql-ha:
 redis-cluster:
   enabled: false
 
-# Environment variables for database password
+# Environment variables for database password and MinIO
 deployment:
   env:
     - name: GITEA__database__PASSWD
@@ -73,6 +109,47 @@ deployment:
         secretKeyRef:
           name: gitea-postgres-password
           key: password
+    # MinIO credentials for storage, LFS, attachments, and avatar
+    - name: GITEA__storage__MINIO_ACCESS_KEY_ID
+      valueFrom:
+        secretKeyRef:
+          name: gitea-minio-credentials
+          key: access-key
+    - name: GITEA__storage__MINIO_SECRET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: gitea-minio-credentials
+          key: secret-key
+    - name: GITEA__lfs__MINIO_ACCESS_KEY_ID
+      valueFrom:
+        secretKeyRef:
+          name: gitea-minio-credentials
+          key: access-key
+    - name: GITEA__lfs__MINIO_SECRET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: gitea-minio-credentials
+          key: secret-key
+    - name: GITEA__attachment__MINIO_ACCESS_KEY_ID
+      valueFrom:
+        secretKeyRef:
+          name: gitea-minio-credentials
+          key: access-key
+    - name: GITEA__attachment__MINIO_SECRET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: gitea-minio-credentials
+          key: secret-key
+    - name: GITEA__avatar__MINIO_ACCESS_KEY_ID
+      valueFrom:
+        secretKeyRef:
+          name: gitea-minio-credentials
+          key: access-key
+    - name: GITEA__avatar__MINIO_SECRET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: gitea-minio-credentials
+          key: secret-key
 
 # Persistence for Gitea data
 persistence:

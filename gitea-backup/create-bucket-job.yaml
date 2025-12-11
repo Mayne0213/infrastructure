@@ -1,0 +1,56 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gitea-minio-setup
+  namespace: gitea
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: mc
+          image: minio/mc:latest
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              echo "Setting up MinIO for Gitea..."
+
+              # Configure MinIO client
+              mc alias set minio ${MINIO_ENDPOINT} ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD}
+
+              # Create bucket for Gitea
+              mc mb -p minio/gitea || true
+
+              # Set bucket versioning for data protection
+              mc version enable minio/gitea
+
+              # Set bucket policy to private
+              mc anonymous set none minio/gitea
+
+              echo "MinIO setup completed successfully"
+
+              # Create a service account for Gitea
+              mc admin user add minio gitea-user ${GITEA_MINIO_PASSWORD}
+              mc admin policy attach minio readwrite --user gitea-user
+
+              echo "Gitea user created with readwrite policy"
+          env:
+            - name: MINIO_ENDPOINT
+              value: "http://minio.minio.svc.cluster.local:9000"
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: minio-root-password
+                  key: root-user
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: minio-root-password
+                  key: root-password
+            - name: GITEA_MINIO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-minio-credentials
+                  key: password
