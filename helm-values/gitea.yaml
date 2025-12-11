@@ -53,6 +53,27 @@ gitea:
       ENABLED: true
       DEFAULT_ACTIONS_URL: https://github.com
 
+  # Health checks
+  livenessProbe:
+    enabled: true
+    tcpSocket:
+      port: http
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 10
+
+  readinessProbe:
+    enabled: true
+    tcpSocket:
+      port: http
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+
 # PostgreSQL dependency (using existing PostgreSQL instance)
 postgresql:
   enabled: false
@@ -120,19 +141,6 @@ resources:
     memory: 256Mi
   limits:
     memory: 512Mi
-
-# Health checks
-livenessProbe:
-  enabled: true
-  initialDelaySeconds: 60
-  periodSeconds: 10
-  timeoutSeconds: 5
-
-readinessProbe:
-  enabled: true
-  initialDelaySeconds: 30
-  periodSeconds: 10
-  timeoutSeconds: 5
 
 # Security context
 securityContext:
