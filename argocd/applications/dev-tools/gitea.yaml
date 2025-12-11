@@ -49,6 +49,5 @@ spec:
   ignoreDifferences:
     - group: apps
       kind: Deployment
-      name: gitea
       jsonPointers:
-        - /spec/template/metadata/annotations/checksum~1config
+        - /spec/template/metadata/annotations
