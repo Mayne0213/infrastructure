@@ -27,13 +27,13 @@ server:
     enabled: true
     ingressClassName: nginx
     hosts:
-      - host: vault.kro.kr
+      - host: vault0213.kro.kr
         paths:
           - /
     tls:
       - secretName: vault-tls
         hosts:
-          - vault.kro.kr
+          - vault0213.kro.kr
   
   # 고가용성 비활성화 (단일 인스턴스)
   ha:
