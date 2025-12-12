@@ -64,20 +64,28 @@ spec:
                   echo "Waiting for Gitea pods to terminate..."
                   sleep 10
                   echo "Gitea scaled down"
-            # Install MinIO client (mc) and kubectl to shared volume
-            - name: install-tools
+            # Install kubectl to shared volume
+            - name: install-kubectl
               image: bitnami/kubectl:latest
               securityContext:
                 runAsUser: 0
               command: ["sh", "-c"]
               args:
               - |
-                # Copy kubectl
                 cp /opt/bitnami/kubectl/bin/kubectl /tools/kubectl
                 chmod +x /tools/kubectl
-
-                # Install and copy mc
-                wget https://dl.min.io/client/mc/release/linux-amd64/mc -O /tools/mc
+              volumeMounts:
+              - name: tools
+                mountPath: /tools
+            # Install MinIO client (mc) to shared volume
+            - name: install-mc
+              image: minio/mc:latest
+              securityContext:
+                runAsUser: 0
+              command: ["sh", "-c"]
+              args:
+              - |
+                cp /usr/bin/mc /tools/mc
                 chmod +x /tools/mc
               volumeMounts:
               - name: tools
