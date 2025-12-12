@@ -130,8 +130,7 @@ spec:
               volumeMounts:
                 - name: backup-storage
                   mountPath: /backup
-
-          containers:
+            # Backup container - runs the actual backup process
             - name: backup
               image: gitea/gitea:1.24.6
               command:
@@ -156,12 +155,12 @@ spec:
                   # Prepare backup directories
                   mkdir -p /backup/repositories /backup/settings /backup/db
                   DATE=$(date +%Y%m%d_%H%M%S)
-                  
+
                   # Always copy the full gitea dump file (primary backup for restore)
                   # This contains everything: database, repositories, settings, data
                   cp "$BACKUP_FILE" "/backup/settings/gitea-full-dump_${DATE}.zip"
                   echo "Full dump file prepared: gitea-full-dump_${DATE}.zip"
-                  
+
                   # Create a single tar.gz archive of all database backups
                   if [ -d "/backup/db" ] && [ "$(ls -A /backup/db)" ]; then
                     echo "Creating combined database backup archive..."
@@ -171,7 +170,7 @@ spec:
                     # Remove individual dump files after archiving (optional, to save space)
                     # rm -f *.dump
                   fi
-                  
+
                   # Try to extract for individual component backups (optional, for convenience)
                   # Use Python's zipfile module (available in gitea image) or unzip
                   EXTRACTED=false
@@ -184,7 +183,7 @@ spec:
                   else
                     echo "Note: Cannot extract dump (no unzip/python), full dump file will be used for restore"
                   fi
-                  
+
                   # Backup repositories directly from /data/git/gitea-repositories
                   # This is more reliable than extracting from dump file
                   echo "Backing up repositories from /data/git/gitea-repositories..."
@@ -219,7 +218,7 @@ spec:
                   # These are optional but useful for selective restore
                   if [ "$EXTRACTED" = true ]; then
                     echo "Creating individual component archives for settings..."
-                    
+
                     # Archive settings separately (tar.gz format)
                     if [ -f "app.ini" ]; then
                       echo "Archiving app.ini..."
@@ -236,7 +235,7 @@ spec:
                   MC_CONFIG_DIR="/tmp/mc-config"
                   mkdir -p ${MC_CONFIG_DIR}
                   MC="/tools/mc --insecure --config-dir ${MC_CONFIG_DIR}"
-                  
+
                   # MinIO 연결
                   echo "Connecting to MinIO..."
                   ${MC} alias set myminio http://${MINIO_ENDPOINT} ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD}
@@ -276,16 +275,11 @@ spec:
                     echo "Cleaning old backups in $bucket..."
                     ${MC} find myminio/${bucket} --older-than 7d --exec "${MC} rm {}" || true
                   done
-                  
+
                   # Cleanup
                   rm -rf ${MC_CONFIG_DIR}
 
                   echo "Backup completed successfully"
-                  
-                  # Scale up Gitea deployment after backup
-                  echo "Scaling up Gitea deployment..."
-                  kubectl scale deployment gitea --replicas=1 -n gitea || echo "Warning: Could not scale up Gitea"
-                  echo "Gitea scaled up"
               env:
                 - name: USER_UID
                   value: "1000"
@@ -323,6 +317,19 @@ spec:
                   mountPath: /backup
                 - name: tools
                   mountPath: /tools
+
+          # Main container to scale up Gitea after backup completes
+          containers:
+            - name: scale-up-gitea
+              image: bitnami/kubectl:latest
+              command:
+                - sh
+                - -c
+                - |
+                  echo "Scaling up Gitea deployment after backup..."
+                  kubectl scale deployment gitea --replicas=1 -n gitea
+                  echo "Gitea scaled up successfully"
+
           volumes:
             - name: gitea-data
               persistentVolumeClaim:
