@@ -5,7 +5,6 @@ resources:
   - application.yaml
   - argocd/
   - ingress/ingress.yaml
-  - sealed-secrets/
   - gitea/  # Backup jobs and runner (Gitea Application itself is managed manually)
   # Gitea Application is managed manually to avoid circular dependency
   # Apply with: kubectl apply -f argocd/applications/dev-tools/gitea.yaml
