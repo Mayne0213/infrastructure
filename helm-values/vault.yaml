@@ -1,0 +1,55 @@
+# HashiCorp Vault Helm Values
+# Chart: https://github.com/hashicorp/vault-helm
+
+global:
+  enabled: true
+  tlsDisable: true  # 내부 클러스터에서는 TLS 비활성화
+
+server:
+  enabled: true
+  
+  # Dev 모드 (시작하기 쉽게, 나중에 production 모드로 변경 가능)
+  dev:
+    enabled: true
+    devRootToken: "root"  # 초기 root 토큰 (나중에 변경 권장)
+  
+  # 리소스 제한
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  
+  # Ingress 설정
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - host: vault.kro.kr
+        paths:
+          - /
+    tls:
+      - secretName: vault-tls
+        hosts:
+          - vault.kro.kr
+  
+  # 고가용성 비활성화 (단일 인스턴스)
+  ha:
+    enabled: false
+  
+  # 서비스 타입
+  service:
+    enabled: true
+    type: ClusterIP
+    port: 8200
+
+# UI 활성화
+ui:
+  enabled: true
+  serviceType: ClusterIP
+
+# Injector (나중에 필요하면 활성화)
+injector:
+  enabled: false

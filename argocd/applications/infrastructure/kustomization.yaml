@@ -5,3 +5,5 @@ resources:
   - cert-manager.yaml
   - cert-manager-issuers.yaml
   - ingress-nginx.yaml
+  - vault.yaml
+  - external-secrets.yaml
